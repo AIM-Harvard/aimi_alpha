@@ -19,7 +19,8 @@ from google.cloud import storage
 
 
 def download_patient_data(raw_base_path, sorted_base_path,
-                          patient_df, remove_raw = True):
+                          patient_df, remove_raw = True,
+                          path_to_dicomsort_repo = "."):
 
   """
   Download raw DICOM data and run dicomsort to standardise the input format.
@@ -30,7 +31,10 @@ def download_patient_data(raw_base_path, sorted_base_path,
                                   patient information required to pull data from the IDC buckets.
     remove_raw       : optional - whether to remove or not the raw non-sorted data
                                   (after sorting with dicomsort). Defaults to True.
-  
+    
+    # FIXME - get rid of this once DICOMsort gets released as a package (... soon)!
+    path_to_dicomsort_repo : optional - path to the folder where the dicomsort
+                                        repository is found/cloned from GitHub
   Outputs:
     This function [...]
   """
@@ -65,9 +69,9 @@ def download_patient_data(raw_base_path, sorted_base_path,
   start_time = time.time()
   print("\nSorting DICOM files..." )
 
-  # 
+  dicomsort_py_path = os.path.join(path_to_dicomsort_repo, "dicomsort/dicomsort.py")
   bash_command = list()
-  bash_command += ["python", "src/dicomsort/dicomsort.py", "-k", "-u",
+  bash_command += ["python", "%s"%dicomsort_py_path, "-k", "-u",
                    "%s"%download_path, "%s/%%PatientID/%%Modality/%%SOPInstanceUID.dcm"%sorted_base_path]
 
   bash_return = subprocess.run(bash_command, check = True, text = True)
