@@ -161,6 +161,40 @@ def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
 # ----------------------------------
 # ----------------------------------      
     
+# TO-DO
+def numpy_to_nifti(model_output_folder, processed_nrrd_path, pat_id,
+                   output_folder_name = "pred_softmax", output_dtype = "uint8",
+                   structure_list = ["Background", "Pancreas",
+                                    "Pancreatic_cancer"]):
+  
+  """
+  Convert softmax probability maps to NIfTI. For simplicity, the probability maps
+  are converted by default to UInt8
+  Arguments:
+    model_output_folder  : required - path to the folder where the inferred segmentation masks should be stored.
+    processed_nifti_path : required - path to the folder where the preprocessed NRRD data are stored.
+    pat_id               : required - patient ID (used for naming purposes).
+    output_folder_name   : optional - name of the subfolder under the patient directory 
+                                      (under `processed_nrrd_path`) where the softmax NRRD
+                                      files will be saved. Defaults to "pred_softmax".
+    output_dtype         : optional - output data type. Data type float16 is not supported by the NRRD standard,
+                                      so the choice should be between uint8, uint16 or float32. Please note this
+                                      will greatly impact the size of the DICOM PM file that will be generated.
+    structure_list       : optional - list of the structures whose probability maps are stored in the 
+                                      first channel of the `.npz` file (output from the nnU-Net pipeline
+                                      when `export_prob_maps` is set to True). Defaults to the structure
+                                      list for the SegTHOR challenge (background = 0 included).
+  Outputs:
+    This function [...]
+  """
+  
+  print("Convert softmax probability maps to NIfTI.")
+  
+  print("\nStill to be implemented.")  
+  
+# ----------------------------------
+# ----------------------------------      
+    
 def nifti_to_dicomseg(sorted_base_path, processed_base_path,
                       dicomseg_json_path, pat_id, skip_empty_slices = True):
 
