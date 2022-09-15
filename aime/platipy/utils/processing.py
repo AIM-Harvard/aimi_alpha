@@ -15,8 +15,8 @@ import time
 import subprocess
 
 def process_patient(pat_id,
-                    model_input_folder = model_input_folder,
-                    model_output_folder = model_output_folder,
+                    model_input_folder ,
+                    model_output_folder,
                     path_to_config_file = None):
   
   """
