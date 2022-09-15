@@ -18,7 +18,7 @@ def process_patient_nnunet(model_input_folder, model_output_folder, nnunet_model
                            use_tta = False, export_prob_maps = False):
 
   """
-  Infer the thoracic organs at risk segmentation maps using one of the nnU-Net models.
+  Infer the pancreas and pancreatic cancer segmentation masks using one of the nnU-Net models.
   Arguments:
     model_input_folder  : required - path to the folder where the data to be inferred should be stored.
     model_output_folder : required - path to the folder where the inferred segmentation masks will be stored.
