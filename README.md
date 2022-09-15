@@ -1,2 +1,3 @@
-# alpha_aime
-Alpha for AIME.
+# AIME
+
+Alpha version of the AIMI project.
