@@ -30,6 +30,8 @@ def process_patient(pat_id,
     This function [...]
   """
   
+  start_time = time.time()
+  
   img_to_process_list = [f for f in os.listdir(model_input_folder) if pat_id in f and (".nii.gz" in f or ".nrrd" in f)]
 
   assert(len(img_to_process_list) == 1)
@@ -52,3 +54,5 @@ def process_patient(pat_id,
   elapsed = time.time() - start_time
 
   print("Done in %g seconds."%elapsed)
+  
+  
