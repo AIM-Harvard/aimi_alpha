@@ -5,305 +5,373 @@
   "SeriesDescription": "Segmentation",
   "SeriesNumber": "42",
   "InstanceNumber": "1",
-  "BodyPartExamined": "Abdomen",
+  "BodyPartExamined": "Chest",
   "segmentAttributes": [
     [
       {
         "labelID": 1,
-        "SegmentDescription": "Spleen",
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "A_Aorta",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "78961009",
+          "CodeValue": "15825003",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Spleen"
+          "CodeMeaning": "Aorta"
         },
         "recommendedDisplayRGBValue": [
-          157,
-          108,
-          162
+          224,
+          97,
+          76
         ]
-      },
+      }
+    ],
+    [
       {
-        "labelID": 2,
-        "SegmentDescription": "Kidney_R",
+        "labelID": 1,
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "A_Cflx",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "64033007",
+          "CodeValue": "57396003",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Kidney"
-        },
-        "SegmentedPropertyTypeModifierCodeSequence": {
-          "CodeValue": "24028007",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Right"
+          "CodeMeaning": "Circumflex Coronary Artery"
         },
         "recommendedDisplayRGBValue": [
-          22,
-          171,
-          201
+          233,
+          123,
+          123
         ]
-      },
+      }
+    ],
+    [
       {
-        "labelID": 3,
-        "SegmentDescription": "Kidney_L",
+        "labelID": 1,
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "A_Coronary_L",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "64033007",
+          "CodeValue": "3227004",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Kidney"
-        },
-        "SegmentedPropertyTypeModifierCodeSequence": {
-          "CodeValue": "7771000",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Left"
+          "CodeMeaning": "Left Main Coronary Artery"
         },
         "recommendedDisplayRGBValue": [
-          20,
-          202,
-          155
+          193,
+          113,
+          113
         ]
-      },
+      }
+    ],
+    [
       {
-        "labelID": 4,
-        "SegmentDescription": "Gallbladder",
+        "labelID": 1,
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "A_Coronary_R",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "28231008",
+          "CodeValue": "13647002",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Gallbladder"
+          "CodeMeaning": "Right Coronary Artery"
         },
         "recommendedDisplayRGBValue": [
-          139,
-          150,
-          98
+          172,
+          74,
+          74
         ]
-      },
+      }
+    ],
+    [
       {
-        "labelID": 5,
-        "SegmentDescription": "Esophagus",
+        "labelID": 1,
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "A_LAD",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "32849002",
+          "CodeValue": "59438005",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Esophagus"
+          "CodeMeaning": "Left Anterior Descending Coronary Artery"
         },
         "recommendedDisplayRGBValue": [
-          211,
-          171,
-          143
-        ]
-      },
-      {
-        "labelID": 6,
-        "SegmentDescription": "Liver",
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "10200004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Liver"
-        },
-        "recommendedDisplayRGBValue": [
-          221,
-          130,
-          101
-        ]
-      },
-      {
-        "labelID": 7,
-        "SegmentDescription": "Stomach",
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "69695003",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Stomach"
-        },
-        "recommendedDisplayRGBValue": [
-          216,
-          132,
-          105
-        ]
-      },
-      {
-        "labelID": 8,
-        "SegmentDescription": "Aorta",
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "7832008",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Abdominal aorta"
-        },
-        "recommendedDisplayRGBValue": [
-          249,
-          225,
-          58
-        ]
-      },
-      {
-        "labelID": 9,
-        "SegmentDescription": "Inferior_vena_cava",
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "64131007",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Inferior vena cava"
-        },
-        "recommendedDisplayRGBValue": [
-          169,
-          69,
-          118
-        ]
-      },
-      {
-        "labelID": 10,
-        "SegmentDescription": "Portal_and_splenic_vein",
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "32764006",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Portal vein"
-        },
-        "SegmentedPropertyTypeModifierCodeSequence": {
-          "CodeValue": "51440002",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Right and left"
-        },
-        "recommendedDisplayRGBValue": [
-          205,
-          90,
-          90
-        ]
-      },
-      {
-        "labelID": 11,
-        "SegmentDescription": "Pancreas",
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "15776009",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Pancreas"
-        },
-        "recommendedDisplayRGBValue": [
-          249,
           180,
-          111
+          49,
+          49
         ]
-      },
+      }
+    ],
+    [
       {
-        "labelID": 12,
-        "SegmentDescription": "Adrenal_gland_R",
+        "labelID": 1,
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "A_Pulmonary",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "23451007",
+          "CodeValue": "81040000",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Adrenal gland"
-        },
-        "SegmentedPropertyTypeModifierCodeSequence": {
-          "CodeValue": "24028007",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Right"
+          "CodeMeaning": "Pulmonary artery"
         },
         "recommendedDisplayRGBValue": [
+          0,
+          122,
+          171
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Atrium_L",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "82471001",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Left atrium"
+        },
+        "recommendedDisplayRGBValue": [
+          203,
+          108,
+          81
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Atrium_R",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "73829009",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Right atrium"
+        },
+        "recommendedDisplayRGBValue": [
+          210,
+          155,
+          89
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Heart",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "80891009",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Heart"
+        },
+        "recommendedDisplayRGBValue": [
+          206,
           110,
-          154,
+          84
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "V_Venacava_S",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "48345005",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Superior vena cava"
+        },
+        "recommendedDisplayRGBValue": [
+          56,
+          135,
+          219
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Valve_Aortic",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "34202007",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Aortic Valve"
+        },
+        "recommendedDisplayRGBValue": [
+          218,
+          123,
           97
         ]
-      },
+      }
+    ],
+    [
       {
-        "labelID": 13,
-        "SegmentDescription": "Adrenal_gland_L",
+        "labelID": 1,
         "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "nnU-Net",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "123037004",
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
+        "SegmentDescription": "Valve_Mitral",
+        "SegmentAlgorithmName": "Platipy",
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "23451007",
+          "CodeValue": "91134007",
           "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Adrenal gland"
-        },
-        "SegmentedPropertyTypeModifierCodeSequence": {
-          "CodeValue": "7771000",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Left"
+          "CodeMeaning": "Mitral Valve"
         },
         "recommendedDisplayRGBValue": [
-          81,
-          203,
-          163
+          159,
+          63,
+          27
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Valve_Pulmonic",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "39057004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Pulmonary valve"
+        },
+        "recommendedDisplayRGBValue": [
+          225,
+          130,
+          104
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Valve_Tricuspid",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "46030003",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Tricuspid Valve"
+        },
+        "recommendedDisplayRGBValue": [
+          166,
+          70,
+          38
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Ventricle_L",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "87878005",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Left ventricle"
+        },
+        "recommendedDisplayRGBValue": [
+          152,
+          55,
+          13
+        ]
+      }
+    ],
+    [
+      {
+        "labelID": 1,
+        "SegmentAlgorithmType": "AUTOMATIC",
+        "SegmentedPropertyCategoryCodeSequence": {
+          "CodeValue": "123037004",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Anatomical Structure"
+        },
+        "SegmentDescription": "Ventricle_R",
+        "SegmentAlgorithmName": "Platipy",
+        "SegmentedPropertyTypeCodeSequence": {
+          "CodeValue": "53085002",
+          "CodingSchemeDesignator": "SCT",
+          "CodeMeaning": "Right ventricle"
+        },
+        "recommendedDisplayRGBValue": [
+          181,
+          85,
+          57
         ]
       }
     ]
