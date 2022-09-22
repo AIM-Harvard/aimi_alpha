@@ -1,6 +1,6 @@
 """
     ----------------------------------------
-    AIME nnU-Net Pancreas - post-processing utils
+    AIMI nnU-Net Abdominal OAR - post-processing utils
     ----------------------------------------
     
     ----------------------------------------
@@ -100,7 +100,7 @@ def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
     structure_list      : optional - list of the structures whose probability maps are stored in the 
                                      first channel of the `.npz` file (output from the nnU-Net pipeline
                                      when `export_prob_maps` is set to True). Defaults to the structure
-                                     list for the SegTHOR challenge (background = 0 included).
+                                     list for the Abdominal OAR model (background = 0 included).
   Outputs:
     This function [...]
   """
@@ -193,7 +193,7 @@ def numpy_to_nifti(model_output_folder, processed_nrrd_path, pat_id,
     structure_list       : optional - list of the structures whose probability maps are stored in the 
                                       first channel of the `.npz` file (output from the nnU-Net pipeline
                                       when `export_prob_maps` is set to True). Defaults to the structure
-                                      list for the SegTHOR challenge (background = 0 included).
+                                      list for the Abdominal OAR model (background = 0 included).
   Outputs:
     This function [...]
   """

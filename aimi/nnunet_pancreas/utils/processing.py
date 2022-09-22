@@ -1,6 +1,6 @@
 """
     ----------------------------------------
-    AIME nnU-Net Pancreas - processing utils
+    AIMI nnU-Net Pancreas - processing utils
     ----------------------------------------
     
     ----------------------------------------

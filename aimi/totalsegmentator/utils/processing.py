@@ -1,6 +1,6 @@
 """
     ----------------------------------------
-    AIME nnU-Net Pancreas - processing utils
+    AIMI TotalSegmentator - processing utils
     ----------------------------------------
     
     ----------------------------------------

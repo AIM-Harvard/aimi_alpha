@@ -131,52 +131,6 @@
           "CodingSchemeDesignator": "SCT",
           "CodeMeaning": "Anatomical Structure"
         },
-        "SegmentDescription": "Ventricle_L_Chamber",
-        "SegmentAlgorithmName": "TotalSegmentator",
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "87878006",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Left ventricle chamber without myocardium"
-        },
-        "recommendedDisplayRGBValue": [
-          152,
-          55,
-          13
-        ]
-      }
-    ],
-    [
-      {
-        "labelID": 1,
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentDescription": "Ventricle_L_Myocardium",
-        "SegmentAlgorithmName": "TotalSegmentator",
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "87878007",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Myocardium around left ventricle"
-        },
-        "recommendedDisplayRGBValue": [
-          223,
-          150,
-          119
-        ]
-      }
-    ],
-    [
-      {
-        "labelID": 1,
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "123037004",
-          "CodingSchemeDesignator": "SCT",
-          "CodeMeaning": "Anatomical Structure"
-        },
         "SegmentDescription": "Ventricle_R",
         "SegmentAlgorithmName": "TotalSegmentator",
         "SegmentedPropertyTypeCodeSequence": {
@@ -217,5 +171,5 @@
   ],
   "ContentLabel": "SEGMENTATION",
   "ContentDescription": "Image segmentation",
-  "ClinicalTrialCoordinatingCenterName": "dcmqi",
+  "ClinicalTrialCoordinatingCenterName": "dcmqi"
 }

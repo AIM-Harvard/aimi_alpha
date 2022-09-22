@@ -1,6 +1,6 @@
 """
     ----------------------------------------
-    AIME nnU-Net Pancreas - post-processing utils
+    AIMI PlatiPy - post-processing utils
     ----------------------------------------
     
     ----------------------------------------
@@ -61,8 +61,6 @@ def nifti_to_dicomseg(sorted_base_path, processed_base_path,
   bash_command += ["--inputDICOMDirectory", "%s"%path_to_ct_dir]
   bash_command += ["--outputDICOM", "%s"%dicom_seg_out_path]
   bash_command += ["--inputMetadata", "%s"%dicomseg_json_path]
-
-  #return " ".join(bash_command)
 
   if skip_empty_slices == True:
     bash_command += ["--skip"]
