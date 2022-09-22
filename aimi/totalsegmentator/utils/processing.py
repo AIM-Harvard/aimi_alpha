@@ -43,7 +43,7 @@ def process_patient(pat_id,
   bash_command += ["-i", "%s"%path_to_img]
   bash_command += ["-o", "%s"%model_output_folder]
 
-  if path_to_config_file is not None:
+  if use_fast_mode:
     print("Running TotalSegmentator in fast mode ('--fast', 3mm): ")
     bash_command += ["--fast"]
   else:
