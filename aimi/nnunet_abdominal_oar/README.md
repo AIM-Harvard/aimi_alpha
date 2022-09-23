@@ -1,1 +1,1 @@
-# nnU-Net - Abdominal Organs at Risk Segmentation
+# Abdominal Organs at Risk Segmentation

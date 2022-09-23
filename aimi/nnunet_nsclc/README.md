@@ -1,1 +1,1 @@
-# nnU-Net - Lung Cancer/Nodules Segmentation
+# Lung Cancer and Nodules Segmentation

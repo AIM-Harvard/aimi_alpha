@@ -1,1 +1,1 @@
-# nnU-Net - Cardiac Substructures Segmentation using TotalSegmentator
+# Cardiac Substructures Segmentation using TotalSegmentator

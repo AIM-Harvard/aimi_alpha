@@ -1,1 +1,1 @@
-# nnU-Net - Liver and Liver Cancer Segmentation
+# Liver and Liver Cancer Segmentation

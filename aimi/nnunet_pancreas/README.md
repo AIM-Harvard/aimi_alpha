@@ -1,1 +1,1 @@
-# nnU-Net - Pancreas and Pancreatic Cancer Segmentation
+# Pancreas and Pancreatic Cancer Segmentation
