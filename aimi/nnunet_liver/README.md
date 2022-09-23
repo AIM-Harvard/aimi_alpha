@@ -1,1 +1,1 @@
-# nnU-Net - Pancreas and Pancreatic Cancer Segmentation
+# nnU-Net - Liver and Liver Cancer Segmentation
