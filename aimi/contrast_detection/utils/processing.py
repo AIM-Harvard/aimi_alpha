@@ -75,7 +75,7 @@ def model_pred(body_part, save_csv, model_dir, out_dir, df_img, img_arr, thr_img
         print('Saved patient prediction!')
 
 
-def data_prepro(body_part, data_dir, img_files, new_spacing=[1, 1, 3],
+def data_prepro(body_part, img_files, new_spacing=[1, 1, 3],
                 input_channel=3, norm_type='np_clip'):
     """
     data preprocrssing: respacing, registration, crop
@@ -96,11 +96,9 @@ def data_prepro(body_part, data_dir, img_files, new_spacing=[1, 1, 3],
     if body_part == 'HeadNeck':
         crop_shape = [192, 192, 100]
         slice_range = range(17, 83)
-        data_dir = os.path.join(data_dir, 'HeadNeck')
     elif body_part == 'Chest':
         crop_shape = [192, 192, 140]
         slice_range = range(50, 120)
-        data_dir = os.path.join(data_dir, 'Chest')
 
     # choose first scan as registration template
     reg_template = img_files[0]
@@ -178,7 +176,6 @@ def data_prepro(body_part, data_dir, img_files, new_spacing=[1, 1, 3],
         img_arr = np.transpose(img_arr, (1, 2, 3, 0))
 
     return df_img, img_arr
-
 
 
 def nrrd_reg_rigid_ref(img_nrrd, fixed_img_dir, patient_id, save_dir):
