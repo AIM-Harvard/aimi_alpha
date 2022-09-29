@@ -3,6 +3,8 @@ from .general_utils import *
 from .platipy import *
 from .totalsegmentator import *
 
+from .lungmask import *
+
 from .nnunet_pancreas import *
 from .nnunet_liver import *
 from .nnunet_nsclc import *
