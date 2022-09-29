@@ -45,12 +45,11 @@ def nifti_to_dicomseg(sorted_base_path, processed_base_path,
   if not os.path.exists(pat_dir_dicomseg_path):
     os.mkdir(pat_dir_dicomseg_path)
 
-  platipy_output_folder = os.path.join(pat_dir_nifti_path, "totalsegmentator")
+  totalsegmentator_output_folder = os.path.join(pat_dir_nifti_path, "totalsegmentator")
 
-  # exclude CN_ structures (not found in the DICOM SEG standard for now)
-  pred_struct_list = [struct for struct in sorted(os.listdir(platipy_output_folder)) if "CN_" not in struct]
+  pred_struct_list = [struct for struct in sorted(os.listdir(totalsegmentator_output_folder))]
 
-  pred_segmasks_nifti_list = [os.path.join(platipy_output_folder, struct) for struct in pred_struct_list]
+  pred_segmasks_nifti_list = [os.path.join(totalsegmentator_output_folder, struct) for struct in pred_struct_list]
   pred_segmasks_nifti_list = ",".join(pred_segmasks_nifti_list)
 
   dicom_seg_out_path = os.path.join(pat_dir_dicomseg_path, pat_id + "_SEG.dcm")
