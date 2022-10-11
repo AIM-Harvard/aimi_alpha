@@ -115,6 +115,56 @@ Defaults to true.
 # ----------------------------------
 # ----------------------------------
 
+def pypla_dicom_mr_to_nifti(sorted_base_path, processed_nifti_path,
+                            pat_id, verbose = True):
+  
+  """
+  Sorted DICOM patient data to NIfTI file (MR volume).
+
+  Arguments:
+    sorted_base_path     : required - path to the folder where the sorted data should be 
+stored.
+    processed_nifti_path : required - path to the folder where the preprocessed NIfTI 
+data are stored
+    remove_raw           : required - patient ID (used for naming purposes).
+    verbose              : optional - whether to run pyplastimatch in verbose mode. 
+Defaults to true.
+  
+  Outputs:
+    This function [...]
+  """
+
+  # given that everything is standardised already, compute the paths
+  path_to_dicom_mr_folder = os.path.join(sorted_base_path, pat_id, "MR")
+  
+  # sanity check
+  assert(os.path.exists(path_to_dicom_mr_folder))
+  
+  pat_dir_nifti_path = os.path.join(processed_nifti_path, pat_id)
+  if not os.path.exists(pat_dir_nifti_path):
+    os.mkdir(pat_dir_nifti_path)
+
+  # output NRRD MR
+  mr_nifti_path = os.path.join(pat_dir_nifti_path, pat_id + "_MR.nii.gz")
+
+  # logfile for the plastimatch conversion
+  log_file_path = os.path.join(pat_dir_nifti_path, pat_id + '_pypla.log')
+
+  # DICOM MR to NRRD conversion (if the file doesn't exist yet)
+  if not os.path.exists(mr_nifti_path):
+    convert_args_mr = {"input" : path_to_dicom_mr_folder,
+                       "output-img" : mr_nifti_path}
+
+    # clean old log file if it exist
+    if os.path.exists(log_file_path): os.remove(log_file_path)
+    
+    pypla.convert(verbose = verbose,
+                  path_to_log_file = log_file_path,
+                  **convert_args_mr)
+
+# ----------------------------------
+# ----------------------------------
+
 def pypla_dicom_rtstruct_to_nrrd(sorted_base_path, processed_nrrd_path,
                                  pat_id, verbose = True):
   
@@ -170,13 +220,12 @@ Defaults to true.
 def prep_input_data(processed_nifti_path, model_input_folder, pat_id):
   
   """
-  Sorted DICOM patient data to NRRD file (RTSTRUCT).
+  Prepare CT data for processing.
 
   Arguments:
-    src_folder : required - path to the folder where the sorted data should be stored.
-    dst_folder : required - path to the folder where the preprocessed NRRD data are 
-stored
-    pat_id     : required - patient ID (used for naming purposes).
+    processed_nifti_path : required - 
+    model_input_folder   : required - 
+    pat_id               : required - patient ID (used for naming purposes).
   
   Outputs:
     This function [...]
@@ -191,6 +240,34 @@ stored
   if not os.path.exists(copy_to_path):
     print("Copying %s\nto %s..."%(ct_nifti_path, copy_to_path))
     shutil.copy(ct_nifti_path, copy_to_path)
+    print("... Done.")
+
+# ----------------------------------
+# ----------------------------------
+
+def prep_mr_input_data(processed_nifti_path, model_input_folder, pat_id):
+  
+  """
+  Prepare MR data for processing.
+
+  Arguments:
+    processed_nifti_path : required - 
+    model_input_folder   : required - 
+    pat_id               : required - patient ID (used for naming purposes).
+  
+  Outputs:
+    This function [...]
+  """
+
+  pat_dir_nifti_path = os.path.join(processed_nifti_path, pat_id)
+  mr_nifti_path = os.path.join(pat_dir_nifti_path, pat_id + "_MR.nii.gz")
+  
+  copy_to_path = os.path.join(model_input_folder, pat_id + "_0000.nii.gz")
+    
+  # copy NIfTI to the right dir for nnU-Net processing
+  if not os.path.exists(copy_to_path):
+    print("Copying %s\nto %s..."%(mr_nifti_path, copy_to_path))
+    shutil.copy(mr_nifti_path, copy_to_path)
     print("... Done.")
 
 # ----------------------------------

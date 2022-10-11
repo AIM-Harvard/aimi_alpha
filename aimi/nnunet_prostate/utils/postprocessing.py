@@ -104,7 +104,7 @@ def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
 
   # parse NRRD file - we will make use of if to populate the header of the
   # NRRD mask we are going to get from the inferred segmentation mask
-  ct_nrrd_path = os.path.join(processed_nrrd_path, pat_id, pat_id + "_CT.nrrd")
+  ct_nrrd_path = os.path.join(processed_nrrd_path, pat_id, pat_id + "_MR.nrrd")
   sitk_ct = sitk.ReadImage(ct_nrrd_path)
 
   output_folder_path = os.path.join(processed_nrrd_path, pat_id, output_folder_name)
@@ -204,7 +204,7 @@ def nifti_to_dicomseg(sorted_base_path, processed_base_path,
     This function [...]
   """
 
-  path_to_ct_dir = os.path.join(sorted_base_path, pat_id, "CT")
+  path_to_mr_dir = os.path.join(sorted_base_path, pat_id, "MR")
 
   processed_nifti_path = os.path.join(processed_base_path, "nii")
   processed_dicomseg_path = os.path.join(processed_base_path, "dicomseg")
@@ -220,7 +220,7 @@ def nifti_to_dicomseg(sorted_base_path, processed_base_path,
   bash_command = list()
   bash_command += ["itkimage2segimage"]
   bash_command += ["--inputImageList", "%s"%pred_segmasks_nifti]
-  bash_command += ["--inputDICOMDirectory", "%s"%path_to_ct_dir]
+  bash_command += ["--inputDICOMDirectory", "%s"%path_to_mr_dir]
   bash_command += ["--outputDICOM", "%s"%dicom_seg_out_path]
   bash_command += ["--inputMetadata", "%s"%dicomseg_json_path]
 
