@@ -217,7 +217,7 @@ Defaults to true.
 # ----------------------------------
 # ----------------------------------
 
-def prep_input_data(processed_nifti_path, model_input_folder, pat_id):
+def prep_ct_input_data(processed_nifti_path, model_input_folder, pat_id):
   
   """
   Prepare CT data for processing.
