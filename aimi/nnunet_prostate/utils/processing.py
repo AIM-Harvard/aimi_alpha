@@ -1,6 +1,6 @@
 """
     ----------------------------------------
-    AIMI nnU-Net Liver - processing utils
+    AIMI nnU-Net Prostate - processing utils
     ----------------------------------------
     
     ----------------------------------------
@@ -50,7 +50,7 @@ def process_patient_nnunet(model_input_folder, model_output_folder, nnunet_model
   bash_command += ["nnUNet_predict"]
   bash_command += ["--input_folder", "%s"%model_input_folder]
   bash_command += ["--output_folder", "%s"%model_output_folder]
-  bash_command += ["--task_name", "Task003_Liver"]
+  bash_command += ["--task_name", "Task024_Promise"]
   bash_command += ["--model", "%s"%nnunet_model]
   
   if use_tta == False:

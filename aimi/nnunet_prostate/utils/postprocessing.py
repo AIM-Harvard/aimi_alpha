@@ -1,6 +1,6 @@
 """
     ----------------------------------------
-    AIMI nnU-Net Liver - post-processing utils
+    AIMI nnU-Net Prostate - post-processing utils
     ----------------------------------------
     
     ----------------------------------------
@@ -36,7 +36,7 @@ def pypla_nifti_to_nrrd(pred_nifti_path, processed_nrrd_path,
     This function [...]
   """
 
-  pred_nrrd_path = os.path.join(processed_nrrd_path, pat_id, pat_id + "_pred_liver.nrrd")
+  pred_nrrd_path = os.path.join(processed_nrrd_path, pat_id, pat_id + "_pred_prostate.nrrd")
   log_file_path = os.path.join(processed_nrrd_path, pat_id, pat_id + "_pypla.log")
   
   # Inferred NIfTI segmask to NRRD
@@ -76,8 +76,7 @@ def pypla_postprocess(processed_nrrd_path, model_output_folder, pat_id):
 
 def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
                   output_folder_name = "pred_softmax", output_dtype = "uint8",
-                  structure_list = ["Background", "Liver",
-                                    "Liver_cancer"]):
+                  structure_list = ["Background", "Prostate"]):
 
   """
   Convert softmax probability maps to NRRD. For simplicity, the probability maps
@@ -95,7 +94,7 @@ def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
     structure_list      : optional - list of the structures whose probability maps are stored in the 
                                      first channel of the `.npz` file (output from the nnU-Net pipeline
                                      when `export_prob_maps` is set to True). Defaults to the structure
-                                     list for the Liver model (background = 0 included).
+                                     list for the Prostate model (background = 0 included).
   Outputs:
     This function [...]
   """
@@ -115,12 +114,6 @@ def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
 
   pred_softmax_all = np.load(pred_softmax_path)["softmax"]
 
-  # check if the model managed to segment the liver cancer as well
-  # if not, exclude it from the list
-  has_cancer_seg = True if len(np.unique(pred_softmax_all)) > 2 else False
-
-  if has_cancer_seg == False:
-    structure_list = ["Background", "Liver"]
 
   for channel, structure in enumerate(structure_list):
 
@@ -164,8 +157,7 @@ def numpy_to_nrrd(model_output_folder, processed_nrrd_path, pat_id,
 # TO-DO
 def numpy_to_nifti(model_output_folder, processed_nrrd_path, pat_id,
                    output_folder_name = "pred_softmax", output_dtype = "uint8",
-                   structure_list = ["Background", "Liver",
-                                     "Liver_cancer"]):
+                   structure_list = ["Background", "Prostate"]):
   
   """
   Convert softmax probability maps to NIfTI. For simplicity, the probability maps
@@ -183,7 +175,7 @@ def numpy_to_nifti(model_output_folder, processed_nrrd_path, pat_id,
     structure_list       : optional - list of the structures whose probability maps are stored in the 
                                       first channel of the `.npz` file (output from the nnU-Net pipeline
                                       when `export_prob_maps` is set to True). Defaults to the structure
-                                      list for the Liver model (background = 0 included).
+                                      list for the Prostate model (background = 0 included).
   Outputs:
     This function [...]
   """
@@ -221,7 +213,7 @@ def nifti_to_dicomseg(sorted_base_path, processed_base_path,
   if not os.path.exists(pat_dir_dicomseg_path):
     os.mkdir(pat_dir_dicomseg_path)
 
-  pred_segmasks_nifti = os.path.join(processed_nifti_path, pat_id, pat_id + "_pred_liver.nii.gz")
+  pred_segmasks_nifti = os.path.join(processed_nifti_path, pat_id, pat_id + "_pred_prostate.nii.gz")
 
   dicom_seg_out_path = os.path.join(pat_dir_dicomseg_path, pat_id + "_SEG.dcm")
 
