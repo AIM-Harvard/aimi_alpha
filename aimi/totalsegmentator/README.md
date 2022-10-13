@@ -1,1 +1,1 @@
-# Cardiac Substructures Segmentation using TotalSegmentator
+# Whole Body CT Segmentation using TotalSegmentator
