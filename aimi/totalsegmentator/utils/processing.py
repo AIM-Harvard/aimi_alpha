@@ -64,7 +64,7 @@ def run_vessels_segmentation(pat_id,
                              model_input_folder ,
                              model_output_folder):
   
-    """
+  """
   Run the TotalSegmentator inference phase (lung vessels).
   
   Arguments:
