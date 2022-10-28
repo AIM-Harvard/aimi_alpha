@@ -16,8 +16,8 @@ sys.path.append('.')
 import os
 import shutil
 
-from aimi.aimi import general_utils as aimi_utils
-from aimi.aimi import totalsegmentator as aimi_model
+from aimi import general_utils as aimi_utils
+from aimi import totalsegmentator as aimi_model
 
 # FIXME: parse everything from config file
 dataset_name = "dataset"
@@ -35,7 +35,7 @@ processed_dicomseg_path = os.path.join(processed_base_path, "dicomseg")
 model_input_folder = os.path.join(data_base_path, "model_input")
 model_output_folder = os.path.join(data_base_path, "totalsegmentator_output/")
 
-dicomseg_json_path = "/app/aimi_local/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
+dicomseg_json_path = "/app/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
 
 docker_out_path = os.path.join(data_base_path, "output_data")
 
