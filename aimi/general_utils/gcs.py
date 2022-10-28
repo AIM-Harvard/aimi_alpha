@@ -15,8 +15,9 @@ import time
 import shutil
 import subprocess
 
-from google.cloud import storage
-
+# FIXME: get rid of this/import this only in the cloud environment
+#        so that every script can run locally as well without problems
+#from google.cloud import storage
 
 def download_patient_data(raw_base_path, sorted_base_path,
                           patient_df, remove_raw = True,

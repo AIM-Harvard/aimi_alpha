@@ -16,8 +16,8 @@ sys.path.append('.')
 import os
 import shutil
 
-from aimi_local.aimi import general_utils as aimi_utils
-from aimi_local.aimi import totalsegmentator as aimi_model
+from aimi.aimi import general_utils as aimi_utils
+from aimi.aimi import totalsegmentator as aimi_model
 
 # FIXME: parse everything from config file
 dataset_name = "dataset"
