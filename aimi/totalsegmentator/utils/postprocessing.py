@@ -45,7 +45,7 @@ def nifti_to_dicomseg(sorted_base_path, processed_base_path,
   if not os.path.exists(pat_dir_dicomseg_path):
     os.mkdir(pat_dir_dicomseg_path)
 
-  totalsegmentator_output_folder = os.path.join(pat_dir_nifti_path, "totalsegmentator")
+  totalsegmentator_output_folder = os.path.join(pat_dir_nifti_path, "seg")
 
   pred_struct_list = [struct for struct in sorted(os.listdir(totalsegmentator_output_folder))]
 
