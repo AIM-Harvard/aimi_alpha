@@ -37,8 +37,8 @@ model_output_folder = os.path.join(data_base_path, "totalsegmentator_output/")
 
 dicomseg_json_path = "/app/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
 
-docker_out_path = os.path.join(data_base_path, "output_data")
-
+docker_base_out_path = os.path.join(data_base_path, "output_data")
+docker_out_path = os.path.join(docker_base_out_path, "totalsegmentator")
 
 # FIXME: create directory tree using a function?
 # N.B. - some of these (mounting points) need to be created
@@ -63,6 +63,8 @@ aimi_utils.sort_patient_data(raw_base_path = raw_base_path,
 # Either we loop on all of the subjects, or we at least implement some control
 assert(len(os.listdir(sorted_base_path)) == 1)
 pat_id = os.listdir(sorted_base_path)[0]
+
+# FIXME: do we want to check which patients have a segmask already and skip those?
 
 # DICOM CT to NIfTI - required for the processing
 aimi_utils.preprocessing.pypla_dicom_ct_to_nifti(sorted_base_path = sorted_base_path,
@@ -89,4 +91,5 @@ aimi_model.utils.postprocessing.nifti_to_dicomseg(sorted_base_path = sorted_base
                                                   pat_id = pat_id)
 
 # FIXME: add the possibility to export more data than a simple DICOMSEG file from config file?
-shutil.copytree(processed_base_path, docker_out_path, dirs_exist_ok = True)
+#shutil.copytree(processed_base_path, docker_out_path, dirs_exist_ok = True)
+shutil.copytree(processed_base_path, docker_out_path)
