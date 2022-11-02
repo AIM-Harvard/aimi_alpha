@@ -81,7 +81,7 @@ aimi_model.utils.processing.process_patient(pat_id = pat_id,
                                             model_output_folder = model_output_folder)
 
 
-processed_seg_folder = os.path.join(processed_nifti_path, pat_id, "totalsegmentator")
+processed_seg_folder = os.path.join(processed_nifti_path, pat_id, "seg")
 shutil.copytree(model_output_folder, processed_seg_folder)
 
 # convert to DICOMSEG
