@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from Config import Module, UnsortedInstance, SortedInstance, InstanceData, DataType
+from Config import Module, UnsortedInstance, SortedInstance, InstanceData, DataType, FileType
 
 class DataSorter(Module):
     """
@@ -44,7 +44,7 @@ class DataSorter(Module):
         instances = []
         for sid in self.getSeriesIDs():
             inst = SortedInstance(os.path.join("sorted", sid))
-            inst.data = [InstanceData("dicom", DataType.DICOM)]
+            inst.data = [InstanceData("dicom", DataType(FileType.DICOM))]
             instances.append(inst)
 
         # update instances to the global data handler

@@ -1,4 +1,4 @@
-from Config import Config, DataType
+from Config import Config, DataType, FileType
 from DataSorter import DataSorter
 from modules.convert.NiftiConverter import NiftiConverter
 from DataOrganizer import DataOrganizer
@@ -62,7 +62,7 @@ printInstanceOverview(config)
 printSectionHeader("ORGANIZE")
 
 organizer = DataOrganizer(config)
-organizer.setTarget(type=DataType.NIFTI, dir="/app/mymodeldata/allnifti")
+organizer.setTarget(type=DataType(FileType.NIFTI), dir="/app/mymodeldata/allnifti")
 organizer.execute()
 
 printInstanceOverview(config)
@@ -77,3 +77,10 @@ printInstanceOverview(config)
 
 # - done --------------------------------
 print("X - DONE ------------")
+
+# export datahandler
+import pickle
+with open('/app/datahandler.pickle', 'wb') as f:
+    pickle.dump(config.data, f)
+
+print("> exported data handler as /app/datahandler.pickle")

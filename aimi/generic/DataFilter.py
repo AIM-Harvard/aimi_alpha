@@ -1,6 +1,6 @@
 import re
 from typing import List
-from Config import Module, Instance, DataType
+from Config import Module, Instance, DataType, FileType
 
 class DataFilter(Module):
     """
@@ -29,7 +29,7 @@ class SIDFilter(DataFilter):
     sid: str
 
     def getInstanceSid(self, instance: Instance) -> str:
-        dicom_data = instance.getDataByType(DataType.DICOM)
+        dicom_data = instance.getDataByType(DataType(FileType.DICOM))
         sid = dicom_data.abspath.split("/")[-2]
         print("ABS DICOM PATH: ", dicom_data.abspath, " | SID: ", sid)
         return sid

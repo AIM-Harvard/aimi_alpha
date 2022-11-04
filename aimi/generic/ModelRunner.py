@@ -12,7 +12,7 @@
 
 from typing import List
 import os, subprocess
-from Config import Module, Instance, DataType, InstanceData
+from Config import Module, Instance, InstanceData, DataType, FileType
 
 
 class ModelRunner(Module):
@@ -36,7 +36,7 @@ class TotalSegmentatorRunner(ModelRunner):
         }
 
         # data
-        inp_data = instance.getDataByType(DataType.NIFTI)
+        inp_data = instance.getDataByType(DataType(FileType.NIFTI))
 
         # define model output folder
         out_dir = self.config.data.requestTempDir()
@@ -71,8 +71,11 @@ class TotalSegmentatorRunner(ModelRunner):
                 continue
 
             # create output data
-            seg_data_type = DataType.NIFTI
-            seg_data_type.setUseCase("SEG:" + out_file[:-7].upper())
+            seg_data_type = DataType(FileType.NIFTI)
+            seg_data_type.usecase = {
+                "modality": "segmentation",
+                "roi": out_file[:-7]        # TODO: standardize (as with the whole DataType usecase & filtering!)
+            } 
             seg_path = os.path.join(out_dir, out_file)
             seg_data = InstanceData(seg_path, type=seg_data_type)
             seg_data.base = "" # required since path is external (will be fixed soon)

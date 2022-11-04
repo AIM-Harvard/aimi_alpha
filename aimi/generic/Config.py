@@ -1,8 +1,30 @@
 import os, time, uuid
 from enum import Enum
-from typing import List
+from typing import List, Dict
 
-class DataType(Enum):
+class FileType(Enum):
+    NONE = None
+    NRRD = "nrrd"
+    NIFTI = "nifti"
+    DICOM = "dicom"
+    DICOMSEG = "dicomseg"
+    RTSTRUCT = "RTSTRUCT"
+
+    def __str__(self) -> str:
+        return self.name
+
+#class DataSemantic:
+
+class DataType:
+
+    def __init__(self, ftype: FileType) -> None:
+        self.ftype: FileType = ftype
+        self.usecase: Dict[str, str] = {}
+
+    def __str__(self) -> str:
+        return f"[T:{str(self.ftype)}]"
+
+class DataType_old(Enum):
     """
     DataType represents all possible data representations of an instance of input data.
     """
@@ -23,7 +45,7 @@ class DataType(Enum):
         self.usecase = usecase
 
     def getUsecase(self) -> str:
-        return self.usecase
+        return self.usecase if hasattr(self, "usecase") else ""
 
 class Instance: 
     handler: 'DataHandler'
@@ -48,11 +70,22 @@ class Instance:
         self._data = data
 
     def hasType(self, type: DataType) -> bool:
-        return len([d for d in self.data if d.type == type]) > 0
+        return len([d for d in self.data if d.type.ftype == type.ftype]) > 0 # FIXME: need proper matching!!! 
 
     def getDataByType(self, type: DataType) -> 'InstanceData':
-        d = [d for d in self.data if d.type == type]
-        if len(d) > 1: print("Warning, type is not unique. First element is returned.")
+        d = [d for d in self.data if d.type.ftype == type.ftype] # FIXME: need proper matching!!! i.e. make DataType instances comparable (using = or isEqual filter ,ethod)
+
+        # warning if multiple data available
+        if len(d) > 1: 
+            print("Warning, type is not unique. First element is returned.")
+        
+        #FIXME: when adding assertions, this should throw
+        if len(d) == 0: 
+            print("Ooops, no data found.")
+            print("> You were asking for " + str(type) + ". But all I have is:")
+            print("> ", "\n> ".join([str(x) for x in self.data]))
+
+        # return data
         return d[0]
 
     def addData(self, data: 'InstanceData') -> None:
@@ -135,7 +168,7 @@ class Config:
         self.verbose = True
 
         self.sorted_structure = "%SeriesInstanceUID/dicom/%SOPInstanceUID.dcm"
-
+        self.dicomseg_json_path = "/app/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
         self.data_base_dir = "/app/data"
         self.sorted_base_path = "/app/data/sorted"
 

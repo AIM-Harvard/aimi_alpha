@@ -1,6 +1,6 @@
 from Config import Config
 from DataSorter import DataSorter
-from DataConverter import NiftiConverter
+from aimi.generic.modules.convert.DataConverter import NiftiConverter
 from ModelRunner import TotalSegmentatorRunner
 
 # clean

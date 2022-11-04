@@ -1,8 +1,9 @@
+from typing import Dict
 import os, shutil, uuid
-from Config import Module, Instance, DataType, InstanceData
+from Config import Module, Instance, InstanceData, DataType, FileType
 
 class DataOrganizer(Module):
-    target: dict = {}
+    target: Dict[DataType, str] = {}
 
     def setTarget(self, type: DataType, dir: str) -> None:
         self.target[type] = dir
@@ -39,10 +40,10 @@ class DataOrganizer(Module):
             # TODO: then we have to deal with the file extensions.
             # this should be handled by the datatype, especially the edgecases (i.e., nifti having the compressed .nii.gz and uncompressed type .nii, or for dicom beeing a folder) 
             ext = {
-                DataType.DICOM: "",
-                DataType.NIFTI: ".nii.gz",
-                DataType.NRRD: ".nrrd"
-            }[type]
+                FileType.DICOM: "",
+                FileType.NIFTI: ".nii.gz",
+                FileType.NRRD: ".nrrd"
+            }[type.ftype]
             
             out_file = rnd + ext
 

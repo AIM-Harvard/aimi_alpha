@@ -1,5 +1,5 @@
 from .DataConverter import DataConverter
-from Config import Instance, InstanceData, DataType
+from Config import Instance, InstanceData, DataType, FileType
 
 import os
 import pyplastimatch as pypla # type: ignore
@@ -13,11 +13,11 @@ class NiftiConverter(DataConverter):
     def convert(self, instance: Instance) -> None:#-> Optional[InstanceData]:
 
         # cretae a converted instance
-        assert instance.hasType(DataType.DICOM), f"CONVERT ERROR: required datatype (dicom) not available in instance {str(instance)}."
-        dicom_data = instance.getDataByType(DataType.DICOM)
+        assert instance.hasType(DataType(FileType.DICOM)), f"CONVERT ERROR: required datatype (dicom) not available in instance {str(instance)}."
+        dicom_data = instance.getDataByType(DataType(FileType.DICOM))
 
         # out data
-        nifti_data = InstanceData("image.nii.gz", DataType.NIFTI)
+        nifti_data = InstanceData("image.nii.gz", DataType(FileType.NIFTI))
         instance.addData(nifti_data)
 
         # paths

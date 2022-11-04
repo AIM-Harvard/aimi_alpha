@@ -1,5 +1,5 @@
 from typing import Optional
-from Config import Module, Instance, InstanceData, DataType
+from Config import Module, Instance, InstanceData, DataType, FileType
 
 class DataConverter(Module):
     """
@@ -15,7 +15,7 @@ class DataConverter(Module):
 
     def task(self):
         # get instances
-        instances = self.config.data.getInstances(True, DataType.DICOM)
+        instances = self.config.data.getInstances(True, DataType(FileType.DICOM))
         assert len(instances) > 0
 
         # execute convert for each instance
