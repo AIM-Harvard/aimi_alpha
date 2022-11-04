@@ -80,7 +80,6 @@ aimi_model.utils.processing.process_patient(pat_id = pat_id,
                                             model_input_folder = model_input_folder,
                                             model_output_folder = model_output_folder)
 
-
 processed_seg_folder = os.path.join(processed_nifti_path, pat_id, "totalsegmentator")
 shutil.copytree(model_output_folder, processed_seg_folder)
 
@@ -91,5 +90,4 @@ aimi_model.utils.postprocessing.nifti_to_dicomseg(sorted_base_path = sorted_base
                                                   pat_id = pat_id)
 
 # FIXME: add the possibility to export more data than a simple DICOMSEG file from config file?
-#shutil.copytree(processed_base_path, docker_out_path, dirs_exist_ok = True)
-shutil.copytree(processed_base_path, docker_out_path)
+shutil.copytree(processed_base_path, docker_out_path, dirs_exist_ok = True)

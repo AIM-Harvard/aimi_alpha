@@ -17,7 +17,7 @@ import subprocess
 
 
 def sort_patient_data(raw_base_path, sorted_base_path, path_to_dicomsort_repo,
-                      sorted_structure = "%%SeriesInstanceUID/%%SOPInstanceUID.dcm"):
+                      sorted_structure = "%SeriesInstanceUID/%Modality/%SOPInstanceUID.dcm"):
 
   """
   Download raw DICOM data and run dicomsort to standardise the input format.
