@@ -1,16 +1,21 @@
+from typing import Optional
+
 import os
 import pyplastimatch as pypla
 
-from ModelRunnerConfig import Module, Instance, InstanceData, DataType
+from Config import Module, Instance, InstanceData, DataType
 
 class DataConverter(Module):
     """
     Conversion module. 
     Convert instance data from one to another datatype without modifying the data.
     """
-    def convert(self, instance: Instance):
+
+    # TODO: Idea: We could have InstancData as (optional) return type for convert
+
+    def convert(self, instance: Instance) -> None: #-> Optional[InstanceData]:
         print("Ooops, not implemented.")
-        pass
+        #return None
 
     def task(self):
         # get instances
@@ -20,7 +25,10 @@ class DataConverter(Module):
         # execute convert for each instance
         # TODO: add parallelization
         for instance in instances:
-            self.convert(instance)
+            converted = self.convert(instance)
+
+            if converted is not None:
+                instance.addData(converted)
 
 # TODO: outsource
 class NiftiConverter(DataConverter):
@@ -29,7 +37,7 @@ class NiftiConverter(DataConverter):
     Convert instance data from dicom to nifti.
     """
     
-    def convert(self, instance: Instance):
+    def convert(self, instance: Instance) -> None:#-> Optional[InstanceData]:
 
         # cretae a converted instance
         assert instance.hasType(DataType.DICOM), f"CONVERT ERROR: required datatype (dicom) not available in instance {str(instance)}."
@@ -50,6 +58,7 @@ class NiftiConverter(DataConverter):
         # DICOM CT to NRRD conversion (if the file doesn't exist yet)
         if os.path.isfile(out_nifti_file):
             print("CONVERT ERROR: File already exists: ", out_nifti_file)
+            #return None
         else:
             convert_args_ct = {
                 "input" : inp_dicom_dir,
@@ -67,5 +76,5 @@ class NiftiConverter(DataConverter):
                 **convert_args_ct
             )
 
-
+        #return nifti_data
     

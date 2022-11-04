@@ -1,6 +1,6 @@
 import re
 from typing import List
-from ModelRunnerConfig import Module, Instance, DataType
+from Config import Module, Instance, DataType
 
 class DataFilter(Module):
     """

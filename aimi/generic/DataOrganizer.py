@@ -1,5 +1,5 @@
 import os, shutil, uuid
-from ModelRunnerConfig import Module, Instance, DataType, InstanceData
+from Config import Module, Instance, DataType, InstanceData
 
 class DataOrganizer(Module):
     target: dict = {}

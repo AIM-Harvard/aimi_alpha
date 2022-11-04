@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from ModelRunnerConfig import Module, UnsortedInstance, SortedInstance, InstanceData, DataType
+from Config import Module, UnsortedInstance, SortedInstance, InstanceData, DataType
 
 class DataSorter(Module):
     """

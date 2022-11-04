@@ -1,4 +1,4 @@
-import os, time
+import os, time, uuid
 from enum import Enum
 from typing import List
 
@@ -7,12 +7,23 @@ class DataType(Enum):
     DataType represents all possible data representations of an instance of input data.
     """
 
+    NONE = None
     NRRD = "nrrd"
     NIFTI = "nifti"
     DICOM = "dicom"
+    DICOMSEG = "dicomseg"
+    RTSTRUCT = "RTSTRUCT"
 
     def __str__(self) -> str:
         return self.name
+
+    # TODO: DataType needs to be more powerfull to not only separate between data formats but also the semantics of data (e.g. image (ct), processed image (ct), processed (crop, norm) image (ct), segmentation)
+
+    def setUseCase(self, usecase: str) -> None:
+        self.usecase = usecase
+
+    def getUsecase(self) -> str:
+        return self.usecase
 
 class Instance: 
     handler: 'DataHandler'
@@ -103,11 +114,25 @@ class DataHandler:
         i_type = SortedInstance if sorted else UnsortedInstance
         return [i for i in self.instances if isinstance(i, i_type) and i.hasType(type)]
 
+    def requestTempDir(self) -> str:
+        abs_base = "/app/tmp"
+        dir_name = str(uuid.uuid4())
+        path  = os.path.join(abs_base, dir_name)
 
-class ModelRunnerConfig:
+        # make path
+        os.makedirs(path)
+
+        # return
+        return path
+
+class Config:
     data: DataHandler
 
+    # TODO: config will load it's dynamic, configurable attributes from yaml or json file. 
+    # The config should be structured such that there is a shared config accessiblae to all modules and a (optional) config for each Module class. Class inheritance is followed naturally.
+
     def __init__(self) -> None:
+        self.verbose = True
 
         self.sorted_structure = "%SeriesInstanceUID/dicom/%SOPInstanceUID.dcm"
 
@@ -132,12 +157,12 @@ class ModelRunnerConfig:
         
 class Module:
     label: str
-    config: ModelRunnerConfig
-    verbose: bool = True
+    config: Config
 
-    def __init__(self, config: ModelRunnerConfig) -> None:
+    def __init__(self, config: Config) -> None:
         self.label = self.__class__.__name__
         self.config = config
+        self.verbose = config.verbose
 
     def v(self, *args) -> None:
         if self.verbose:

@@ -1,8 +1,9 @@
-from ModelRunnerConfig import ModelRunnerConfig, DataType
+from Config import Config, DataType
 from DataSorter import DataSorter
 from DataConverter import NiftiConverter
 from DataOrganizer import DataOrganizer
 from DataFilter import SIDFilter
+from ModelRunner import TotalSegmentatorRunner
 
 # clean
 import shutil
@@ -26,7 +27,7 @@ def printInstanceOverview(config):
         print()
 
 # config
-config = ModelRunnerConfig()
+config = Config()
 config.makeDirs()
 
 for instance in config.data.instances: print(str(instance))
@@ -63,6 +64,14 @@ printSectionHeader("ORGANIZE")
 organizer = DataOrganizer(config)
 organizer.setTarget(type=DataType.NIFTI, dir="/app/mymodeldata/allnifti")
 organizer.execute()
+
+printInstanceOverview(config)
+
+# - model runner ------------------------
+printSectionHeader("RUN MODEL")
+
+modelrunner = TotalSegmentatorRunner(config)
+modelrunner.execute()
 
 printInstanceOverview(config)
 

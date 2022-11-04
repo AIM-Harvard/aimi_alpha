@@ -1,4 +1,4 @@
-from ModelRunnerConfig import Instance
+from Config import Instance
 from DataConverter import DataConverter
 
 class DataProcessor(DataConverter):
