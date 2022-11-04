@@ -1,5 +1,5 @@
 from Config import Instance
-from DataConverter import DataConverter
+from modules.convert.DataConverter import DataConverter
 
 class DataProcessor(DataConverter):
     """

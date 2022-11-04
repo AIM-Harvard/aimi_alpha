@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# testing data
+aimi/generic/input_data/
+aimi/generic/output_data/

@@ -27,7 +27,6 @@ class ModelRunner(Module):
         pass
 
 class TotalSegmentatorRunner(ModelRunner):
-
     def runModel(self, instance: Instance) -> None:
         
         # model config
@@ -40,8 +39,7 @@ class TotalSegmentatorRunner(ModelRunner):
         inp_data = instance.getDataByType(DataType.NIFTI)
 
         # define model output folder
-        # TODO: we can 'ask' the config to generate and give us a temporary folder to limit the need to perform file system operations.
-        out_dir = "/app/tmp/model_out/"
+        out_dir = self.config.data.requestTempDir()
         
         # create out dir if required
         if not os.path.isdir(out_dir):

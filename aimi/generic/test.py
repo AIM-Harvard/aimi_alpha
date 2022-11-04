@@ -1,6 +1,6 @@
 from Config import Config, DataType
 from DataSorter import DataSorter
-from DataConverter import NiftiConverter
+from modules.convert.NiftiConverter import NiftiConverter
 from DataOrganizer import DataOrganizer
 from DataFilter import SIDFilter
 from ModelRunner import TotalSegmentatorRunner
@@ -45,7 +45,7 @@ printSectionHeader("FILTER")
 
 filter = SIDFilter(config)
 filter.sid = "1.3.6.1.4.1.14519.5.2.1.7009.9004.209031079770197083919717286861"
-#filter.execute()
+filter.execute()
 
 printInstanceOverview(config)
 
