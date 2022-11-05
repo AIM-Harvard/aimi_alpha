@@ -25,7 +25,7 @@ class DataOrganizer(Module):
                 continue
 
             # get input file path
-            inp_data = instance.getDataByType(type)
+            inp_data = instance.getData(type)
 
             # create target directory if required
             if not os.path.isdir(target):

@@ -1,14 +1,16 @@
+from typing import Optional
+
 from Config import Instance, InstanceData, DataType, FileType
 from .DataConverter import DataConverter
 
-import os, subprocess
+import subprocess
 
 # TODO: we should have a generator for instance data (e.g., on the Instance class)
 
 # TODO: Dicomseg generation so far epends on the model. This should, however, be more independend. Ideally, a segmentation carries information about it's ROI in the DataType metatada (will be targeted in the upcoming DataType revision). This can be used to the generate the conversion file dynamicaly and model independend (of course each model has to populate a maping of it's segmentations but that's A simpler, B functional for other use cases too)
 
 class DsegConverter(DataConverter):
-    def convert(self, instance: Instance) -> None:
+    def convert(self, instance: Instance) -> Optional[InstanceData]:
         
         # converter config
         # TODO: load from gobal config>model section
@@ -16,32 +18,24 @@ class DsegConverter(DataConverter):
             "skip_empty_slices": True
         }
 
-        # get all segmentations that we want to include
-        pred_segmasks_nifti_list = []
-        for data in instance.data:
+        # test
+        if self.verbose: instance.printDataMetaOverview(label="Instance Data")
+        fdata = instance.filterData(DataType(FileType.NIFTI, {"modality": "seg"}))
+        if self.verbose: instance.printDataMetaOverview(datas=fdata, label="After Filtering")
 
-            # ignore all datatypes except the supported ones
-            if data.type.ftype != FileType.NIFTI:
-                continue
-
-            # filter based on usecase
-            # TODO: this will be corrected during the DataType revision
-
-            if data.type.getMeta("modality") != "seg":
-                continue
-
-            #
-            pred_segmasks_nifti_list.append(data.abspath)
+        # get segmentation paths list
+        pred_segmasks_nifti_list = [d.abspath for d in fdata]
         
         # TODO: old approach, only valid as long all segmentations are in the same folder.
         pred_segmasks_nifti_list = ",".join(sorted(pred_segmasks_nifti_list))
 
         # get dicom data
-        dicom_data = instance.getDataByType(DataType(FileType.DICOM))
+        dicom_data = instance.getData(DataType(FileType.DICOM))
 
         # output data
         out_data = InstanceData("seg.dcm", DataType(FileType.DICOMSEG))
-        instance.addData(out_data)
+        #instance.addData(out_data)
+        out_data.instance = instance
 
         # build command
         bash_command  = ["itkimage2segimage"]
@@ -58,3 +52,5 @@ class DsegConverter(DataConverter):
         # execute command
         bash_return = subprocess.run(bash_command, check = True, text = True)
             
+        #TODO: check success, return either None or InstanceData
+        return out_data

@@ -11,6 +11,7 @@ import shutil
 shutil.rmtree("/app/data/sorted", ignore_errors=True)               # output of dicomsort
 shutil.rmtree("/app/tmp", ignore_errors=True)                       # model data is stored here 
 shutil.rmtree("/app/mymodeldata/allnifti", ignore_errors=True)      # created by organizer test
+shutil.rmtree("/app/data/output_data", ignore_errors=True)          # final output
 
 # dev helper
 def printSectionHeader(title: str, l=40):

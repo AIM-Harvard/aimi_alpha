@@ -36,7 +36,7 @@ class TotalSegmentatorRunner(ModelRunner):
         }
 
         # data
-        inp_data = instance.getDataByType(DataType(FileType.NIFTI))
+        inp_data = instance.getData(DataType(FileType.NIFTI))
 
         # define model output folder
         out_dir = self.config.data.requestTempDir()
@@ -72,10 +72,11 @@ class TotalSegmentatorRunner(ModelRunner):
 
             # create output data
             seg_data_type = DataType(FileType.NIFTI)
+            seg_data_type.setMeta("model", "TotalSegmentator")
             seg_data_type.setMeta("modality", "seg")
             seg_data_type.setMeta("roi", out_file[:-7]) # TODO: standardize (as with the whole DataType usecase & filtering!)
-            seg_data_type.setMeta("model", "TotalSegmentator")
+            
             seg_path = os.path.join(out_dir, out_file)
             seg_data = InstanceData(seg_path, type=seg_data_type)
             seg_data.base = "" # required since path is external (will be fixed soon)
-            instance.addData(seg_data)
+            instance.addData(seg_data)  

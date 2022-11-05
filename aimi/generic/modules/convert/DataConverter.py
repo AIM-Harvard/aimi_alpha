@@ -9,9 +9,9 @@ class DataConverter(Module):
 
     # TODO: Idea: We could have InstancData as (optional) return type for convert
 
-    def convert(self, instance: Instance) -> None: #-> Optional[InstanceData]:
+    def convert(self, instance: Instance) -> Optional[InstanceData]:
         print("Ooops, not implemented.")
-        #return None
+        return None
 
     def task(self):
         # get instances
