@@ -19,33 +19,20 @@ class DataType:
 
     def __init__(self, ftype: FileType) -> None:
         self.ftype: FileType = ftype
-        self.usecase: Dict[str, str] = {}
+        self.meta: Dict[str, str] = {}
+
+    def getMeta(self, key: str) -> str:
+        return self.meta[key] if key in self.meta else ""
+
+    def setMeta(self, key: str, value: str) -> None:
+        self.meta[key] = value
 
     def __str__(self) -> str:
-        return f"[T:{str(self.ftype)}]"
-
-class DataType_old(Enum):
-    """
-    DataType represents all possible data representations of an instance of input data.
-    """
-
-    NONE = None
-    NRRD = "nrrd"
-    NIFTI = "nifti"
-    DICOM = "dicom"
-    DICOMSEG = "dicomseg"
-    RTSTRUCT = "RTSTRUCT"
-
-    def __str__(self) -> str:
-        return self.name
-
-    # TODO: DataType needs to be more powerfull to not only separate between data formats but also the semantics of data (e.g. image (ct), processed image (ct), processed (crop, norm) image (ct), segmentation)
-
-    def setUseCase(self, usecase: str) -> None:
-        self.usecase = usecase
-
-    def getUsecase(self) -> str:
-        return self.usecase if hasattr(self, "usecase") else ""
+        if not self.meta:
+            return f"[T:{str(self.ftype)}]"
+        else:
+            uc = ":".join(["%s=%s"%(k, v) for k, v in self.meta.items()])
+            return f"[T:{str(self.ftype)}:{uc}]"
 
 class Instance: 
     handler: 'DataHandler'
@@ -71,6 +58,16 @@ class Instance:
 
     def hasType(self, type: DataType) -> bool:
         return len([d for d in self.data if d.type.ftype == type.ftype]) > 0 # FIXME: need proper matching!!! 
+
+    def getDataByTypeAndMeta(self, type: DataType, metaKeys: List[str] = []): 
+        d = []
+        for d in self.data:
+            # check  file type
+            if d.type.ftype != type.ftype:
+                continue
+
+            # check all meta keys
+
 
     def getDataByType(self, type: DataType) -> 'InstanceData':
         d = [d for d in self.data if d.type.ftype == type.ftype] # FIXME: need proper matching!!! i.e. make DataType instances comparable (using = or isEqual filter ,ethod)

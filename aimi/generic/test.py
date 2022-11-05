@@ -1,14 +1,16 @@
 from Config import Config, DataType, FileType
 from DataSorter import DataSorter
 from modules.convert.NiftiConverter import NiftiConverter
+from modules.convert.DsegConverter import DsegConverter
 from DataOrganizer import DataOrganizer
 from DataFilter import SIDFilter
 from ModelRunner import TotalSegmentatorRunner
 
-# clean
+# clean up
 import shutil
-shutil.rmtree("/app/data/sorted", ignore_errors=True)
-shutil.rmtree("/app/data/nifti", ignore_errors=True)
+shutil.rmtree("/app/data/sorted", ignore_errors=True)               # output of dicomsort
+shutil.rmtree("/app/tmp", ignore_errors=True)                       # model data is stored here 
+shutil.rmtree("/app/mymodeldata/allnifti", ignore_errors=True)      # created by organizer test
 
 # dev helper
 def printSectionHeader(title: str, l=40):
@@ -72,6 +74,14 @@ printSectionHeader("RUN MODEL")
 
 modelrunner = TotalSegmentatorRunner(config)
 modelrunner.execute()
+
+printInstanceOverview(config)
+
+# - dicomseg export ---------------------
+printSectionHeader("DICOMSEG")
+
+converter = DsegConverter(config)
+converter.execute()
 
 printInstanceOverview(config)
 
