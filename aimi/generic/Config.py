@@ -1,6 +1,6 @@
 import os, time, uuid, itertools
 from enum import Enum
-from typing import List, Dict, Union, Optional
+from typing import List, Dict, Union, Optional, Tuple
 
 class FileType(Enum):
     NONE = None
@@ -15,26 +15,88 @@ class FileType(Enum):
 
 #class DataSemantic:
 
+class Meta:
 
+    def __init__(self, key: Optional[str] = None, value: Optional[str] = None) -> None:
+        self.mdict: Dict[str, str] = {key: value} if key and value else {}
 
-class DataType:
+    def ext(self, meta: Union[Dict[str, str], List['Meta'], 'Meta']) -> 'Meta':
+        if isinstance(meta, dict):
+            self.mdict = {**self.mdict, **meta}
+        elif isinstance(meta, list) and all([isinstance(m, Meta) for m in meta]):
+            for m in meta:
+                self.mdict = {**self.mdict, **m.mdict}
+        elif isinstance(meta, Meta):
+            self.mdict = {**self.mdict, **meta.mdict}
+        else:
+            raise ValueError("Malformed metadata passed to DataType.")
+        return self
 
-    def __init__(self, ftype: FileType, meta: Optional[Dict[str, str]] = None) -> None:
-        self.ftype: FileType = ftype
-        self.meta: Dict[str, str] = meta if meta else {}
+    def keys(self) -> List[str]:
+        return list(self.mdict.keys())
 
-    def getMeta(self, key: str) -> str:
-        return self.meta[key] if key in self.meta else ""
+    def items(self) -> List[Tuple[str, str]]:
+        return [(k, v) for k, v in self.mdict.items()]
 
-    def setMeta(self, key: str, value: str) -> None:
-        self.meta[key] = value
+    # +
+    def __add__(self, o: Union[Dict[str, str], List['Meta'], 'Meta']) -> 'Meta':
+        return Meta().ext(self).ext(o)
+
+    # -
+    def __sub__(self, rks: List[str]) -> 'Meta':
+        assert isinstance(rks, list) and all([isinstance(k, str) for k in rks])
+        return Meta().ext({k: v for k, v in self.items() if not k in rks})
+
+    # =
+    def __eq__(self, o: Union[Dict[str, str], 'Meta']) -> bool:
+        return self.mdict == (o.mdict if isinstance(o, Meta) else o)
+
+    # in
+    def __contains__(self, ks: Union[str, List[str]]) -> bool:
+        assert isinstance(ks, str) or isinstance(ks, list) and all([isinstance(k, str) for k in ks])
+        return ks in self.mdict if isinstance(ks, str) else all([k in self.mdict for k in ks])
+
+    # <=
+    # "less" is defined as "less general" (or more specific) since it targets a smaller subset of all possible combinations
+    def __le__(self, o: Union[Dict[str, str], 'Meta']) -> bool:
+        omdict = (o.mdict if isinstance(o, Meta) else o)
+        assert isinstance(omdict, dict)
+        for k, v in omdict.items():
+            if self[k] != v:
+                return False
+        return True
+
+    # []
+    def __getitem__(self, key: str) -> str:
+        assert isinstance(key, str)
+        return self.mdict[key] if key in self.mdict else ""
 
     def __str__(self) -> str:
-        if not self.meta:
-            return f"[T:{str(self.ftype)}]"
-        else:
-            uc = ":".join(["%s=%s"%(k, v) for k, v in self.meta.items()])
-            return f"[T:{str(self.ftype)}:{uc}]"
+        return ":".join(["%s=%s"%(k, v) for k, v in self.mdict.items()])
+
+    def __len__(self) -> int:
+        return len(self.mdict)
+
+    def __bool__(self) -> bool:
+        return len(self) > 0
+
+# define common types
+CT      = Meta("mod", "ct")
+CBCT    = Meta("mod", "cbct")
+MRI     = Meta("mod", "mri")
+XRAY    = Meta("mod", "xray")
+SEG     = Meta("mod", "seg")
+
+class DataType:
+    def __init__(self, ftype: FileType, meta: Optional[Meta] = None) -> None:
+        self.ftype: FileType = ftype
+        self.meta: Meta = meta if meta else Meta()
+
+    def __str__(self) -> str:
+        s: str = "[T:" + str(self.ftype)
+        if self.meta: s += ":" + str(self.meta)
+        s += "]"
+        return s
 
 class Instance: 
     handler: 'DataHandler'
@@ -65,16 +127,12 @@ class Instance:
     def getDataMetaKeys(self) -> List[str]:
         return list(set(sum([list(d.type.meta.keys()) for d in self.data], [])))
 
-    def printDataMetaOverview(self, datas: Optional[List['InstanceData']] = None, metaKeys: Optional[List[str]] = None, compress: bool = True, label: str = "") -> None:
+    def printDataMetaOverview(self, datas: Optional[List['InstanceData']] = None, compress: bool = True, label: str = "") -> None:
 
         # you may specify data explicitly (e.g. the result of a filter), otherwise we use the instance's data
-        if not datas:
+        if datas is None:
             datas = self.data
-        
-        # if not specified use all
-        if not metaKeys:
-            metaKeys = self.getDataMetaKeys()
-        
+               
         # count
         cnt: Dict[FileType, Dict[str, Dict[str, int]]] = {}
         cnt_ftype: Dict[FileType, int] = {}
@@ -103,8 +161,9 @@ class Instance:
 
         # print fromatted output
         print(f". {fitalics}{label}{fnormal}")
-        for ftype in cnt:
+        for ftype in cnt_ftype:
             print(f"├── {chead}{str(ftype)}{cend} [{cnt_ftype[ftype]}]")
+            if not ftype in cnt: continue
             for k in cnt[ftype]:
                 print(f"|   ├── {cyan}{k:<20}{cend}")
                 for v, n in cnt[ftype][k].items():
@@ -126,30 +185,15 @@ class Instance:
                                 print(f"\n|   |   |   ", end="")
                         print("")
 
-    def filterData(self, ref_types: Union[DataType, List[DataType]], metaKeys: Optional[List[str]] = None) -> List['InstanceData']:
+    def filterData(self, ref_types: Union[DataType, List[DataType]]) -> List['InstanceData']:
         if not isinstance(ref_types, list):
             ref_types = [ref_types]
-        return list(set(sum([self._filterData(ref_type, metaKeys) for ref_type in ref_types], [])))       
+        return list(set(sum([self._filterData(ref_type) for ref_type in ref_types], [])))       
 
-    def _filterData(self, ref_type: DataType, metaKeys: Optional[List[str]] = None) -> List['InstanceData']: 
+    def _filterData(self, ref_type: DataType) -> List['InstanceData']: 
         """
-        Filter for instance data by a reference data type. Only instance data that match the file type and specified meta data of the reference type are returned. A datatype matches the reference type, if all metadata of the reference type is equal to the datatype. If a datatype contains additional meta data compared to the reference type (specialization) those additional keys are ignored. The keys of the reference type that are used for comparison can be limited to those explicitl mentionened using the metaKeys list (all meta keys of the reference type are used if metaKeys is empty).
+        Filter for instance data by a reference data type. Only instance data that match the file type and specified meta data of the reference type are returned. A datatype matches the reference type, if all metadata of the reference type is equal to the datatype. If a datatype contains additional meta data compared to the reference type (specialization) those additional keys are ignored. 
         """
-
-        if not metaKeys:
-            metaKeys = []
-
-        # check that requested metakeys occur at least once in (any) instance data
-        # filtering for missing meta keys is not really an issue but in most cases a hint that something went wrong. 
-        # TODO: propagate and collect warnings to the config, allow for verbosity settings and (exported) reports
-        mks = self.getDataMetaKeys()
-        if not all([k in mks for k in metaKeys]):
-            print("warning: meta key does not exist on this data.")
-
-        # check that the metakeys used for filtering occur on the reference type (ref_type)
-        # here we use a breaking assertion since reference type and requested filters should always match.
-        # This might be revisited for dynamic situations having metaKeys as a general (instead of an individual) limitation.
-        assert all([k in ref_type.meta.keys() for k in metaKeys]), f"Meta keys ({', '.join(metaKeys)}) don't match the reference type's meta keys ({', '.join(ref_type.meta.keys())})."
 
         # collect only instance data passing all checks (ftype, meta)
         matching_data: List[InstanceData] = []
@@ -157,35 +201,21 @@ class Instance:
         # iterate all instance data of this instance
         for data in self.data:
             # check file type, ignore other filetypes
-            if data.type.ftype != ref_type.ftype:
+            if not data.type.ftype == ref_type.ftype:
                 continue
 
-            # check meta, ignore some keys
-            meta_check_pass: bool = True
-            for k in ref_type.meta.keys():
-
-                # if applicable, ignore keys not set explicitly
-                if metaKeys and k not in metaKeys:
-                    print("ignore not set key")
-                    continue
-
-                # check value match
-                if data.type.getMeta(k) != ref_type.getMeta(k):
-                    meta_check_pass = False
-                    break
-
-            # ignore instance data that failed the meta check
-            if not meta_check_pass:
+            # check if metadata is less general than ref_type's metadata
+            if not data.type.meta <= ref_type.meta:
                 continue
-
+          
             # add instance data that passes all prior checks
             matching_data.append(data)
 
         # return matches
         return matching_data
 
-    def getData(self, ref_types: Union[DataType, List[DataType]], metaKeys: Optional[List[str]] = None) -> 'InstanceData':
-        fdata = self.filterData(ref_types, metaKeys)
+    def getData(self, ref_types: Union[DataType, List[DataType]]) -> 'InstanceData':
+        fdata = self.filterData(ref_types)
 
         # warning if multiple data available
         if len(fdata) > 1: 

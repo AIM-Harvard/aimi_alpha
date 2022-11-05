@@ -1,6 +1,6 @@
 from typing import Optional
 
-from Config import Instance, InstanceData, DataType, FileType
+from Config import Instance, InstanceData, DataType, FileType, Meta, SEG
 from .DataConverter import DataConverter
 
 import subprocess
@@ -20,7 +20,7 @@ class DsegConverter(DataConverter):
 
         # test
         if self.verbose: instance.printDataMetaOverview(label="Instance Data")
-        fdata = instance.filterData(DataType(FileType.NIFTI, {"modality": "seg"}))
+        fdata = instance.filterData(DataType(FileType.NIFTI, SEG))
         if self.verbose: instance.printDataMetaOverview(datas=fdata, label="After Filtering")
 
         # get segmentation paths list

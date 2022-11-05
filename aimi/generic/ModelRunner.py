@@ -12,7 +12,7 @@
 
 from typing import List
 import os, subprocess
-from Config import Module, Instance, InstanceData, DataType, FileType
+from Config import Module, Instance, InstanceData, DataType, FileType, Meta, SEG
 
 
 class ModelRunner(Module):
@@ -70,12 +70,14 @@ class TotalSegmentatorRunner(ModelRunner):
                 print(f"IGNORE OUTPUT FILE {out_file}")
                 continue
 
+            # meta
+            meta = {
+                "model": "TotalSegmentator",
+                "roi": out_file[:-7]            # TODO: standardize (as with the whole DataType usecase & filtering!)
+            }
+
             # create output data
-            seg_data_type = DataType(FileType.NIFTI)
-            seg_data_type.setMeta("model", "TotalSegmentator")
-            seg_data_type.setMeta("modality", "seg")
-            seg_data_type.setMeta("roi", out_file[:-7]) # TODO: standardize (as with the whole DataType usecase & filtering!)
-            
+            seg_data_type = DataType(FileType.NIFTI, SEG + meta)           
             seg_path = os.path.join(out_dir, out_file)
             seg_data = InstanceData(seg_path, type=seg_data_type)
             seg_data.base = "" # required since path is external (will be fixed soon)
