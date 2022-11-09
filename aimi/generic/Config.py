@@ -1,6 +1,6 @@
-import os, time, uuid, itertools
+import os, time, uuid, yaml
 from enum import Enum
-from typing import List, Dict, Union, Optional, Tuple
+from typing import List, Dict, Union, Optional, Tuple, Type, Any
 
 class FileType(Enum):
     NONE = None
@@ -214,17 +214,17 @@ class Instance:
         # return matches
         return matching_data
 
-    def getData(self, ref_types: Union[DataType, List[DataType]]) -> 'InstanceData':
+    def getData(self, ref_types: DataType) -> 'InstanceData':
         fdata = self.filterData(ref_types)
 
         # warning if multiple data available
         if len(fdata) > 1: 
             print("Warning, type is not unique. First element is returned.")
         
-        #FIXME: when adding assertions, this should throw
+        #FIXME: when adding exception management, this should throw
         if len(fdata) == 0: 
             print("Ooops, no data found.")
-            print("> You were asking for " + str(type) + ". But all I have is:")
+            print("> You were asking for " + str(ref_types) + ". But all I have is:")
             print("> ", "\n> ".join([str(x) for x in self.data]))
 
         # return data
@@ -308,29 +308,34 @@ class Config:
     # TODO: config will load it's dynamic, configurable attributes from yaml or json file. 
     # The config should be structured such that there is a shared config accessiblae to all modules and a (optional) config for each Module class. Class inheritance is followed naturally.
 
-    def __init__(self) -> None:
+    def __init__(self, config_file: Optional[str] = None) -> None:
         self.verbose = True
 
-        self.sorted_structure = "%SeriesInstanceUID/dicom/%SOPInstanceUID.dcm"
-        self.dicomseg_json_path = "/app/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
-        self.data_base_dir = "/app/data"
-        self.sorted_base_path = "/app/data/sorted"
+        #self.sorted_structure = "%SeriesInstanceUID/dicom/%SOPInstanceUID.dcm"
+        #self.dicomseg_json_path = "/app/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
+        #self.data_base_dir = "/app/data"
+        #self.sorted_base_path = "/app/data/sorted"
 
-        self.data = DataHandler(base=self.data_base_dir)
+        # TODO: define minimal base config and auto-load. 
+        # How do we 'define' mandatory fields? assert them?
+        if config_file is not None and os.path.isfile(config_file):
+            with open(config_file, 'r') as f:
+                self._config = yaml.safe_load(f)
+
+        self.data = DataHandler(base=self['data_base_dir'])
         self.data.instances = [
-            UnsortedInstance("input_data")
+            UnsortedInstance("input_data") # TODO: generalize
         ]
 
-    # NOTE: for develompemnt only
-    def makeDirs(self):
-        dirs_to_make = [
-            self.sorted_base_path,
-        ]
+    def __getitem__(self, key: Union[str, Type['Module']]) -> Any:
+        if isinstance(key, str) and key in self._config['general']:
+            return self._config['general'][key]
+        elif isinstance(key, type) and key.__name__ in self._config['modules']:
+            return self._config['modules'][key.__name__]
+        else:
+            print(f"WARNING: config '{key}' not defined.")
 
-        for d in dirs_to_make:
-            if not os.path.isdir(d):
-                os.makedirs(name=d, mode=0o777)
-                print('created directory ', d)
+    # TODO: check mode on all! os.makedirs operations (os.makedirs(name=d, mode=0o777))
         
 class Module:
     label: str
@@ -360,3 +365,16 @@ class Module:
         """
         print("Ooops, no task implemented in base module.")
         pass
+
+class Sequence(Module):
+    """
+    Sequentially execute a sequence of Module instances.
+    """
+
+    def __init__(self, config: Config, modules: List[Type[Module]]) -> None:
+        super().__init__(config)
+        self.modules = modules
+
+    def task(self) -> None:
+        for module in self.modules:
+            module(self.config).execute()

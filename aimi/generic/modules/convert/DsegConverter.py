@@ -13,14 +13,13 @@ class DsegConverter(DataConverter):
     def convert(self, instance: Instance) -> Optional[InstanceData]:
         
         # converter config
-        # TODO: load from gobal config>model section
-        c = {
-            "skip_empty_slices": True
-        }
+        # TODO: we should implement sth. like .getConfiguration(key) on the base module.
+        #       but keep it simple for now, one change at a time 
+        c = self.config[self.__class__]
 
         # test
         if self.verbose: instance.printDataMetaOverview(label="Instance Data")
-        fdata = instance.filterData(DataType(FileType.NIFTI, SEG))
+        fdata = instance.filterData(DataType(FileType.NIFTI, SEG)) #  TODO: fetach all models? standardized meta data fields required.
         if self.verbose: instance.printDataMetaOverview(datas=fdata, label="After Filtering")
 
         # get segmentation paths list
@@ -33,8 +32,7 @@ class DsegConverter(DataConverter):
         dicom_data = instance.getData(DataType(FileType.DICOM))
 
         # output data
-        out_data = InstanceData("seg.dcm", DataType(FileType.DICOMSEG))
-        #instance.addData(out_data)
+        out_data = InstanceData("seg.dcm", DataType(FileType.DICOMSEG, SEG)) # TODO: pass model
         out_data.instance = instance
 
         # build command
@@ -42,12 +40,10 @@ class DsegConverter(DataConverter):
         bash_command += ["--inputImageList", pred_segmasks_nifti_list]
         bash_command += ["--inputDICOMDirectory", dicom_data.abspath]
         bash_command += ["--outputDICOM", out_data.abspath]
-        bash_command += ["--inputMetadata", self.config.dicomseg_json_path]
+        bash_command += ["--inputMetadata", c['dicomseg_json_path']]
 
         if c["skip_empty_slices"] == True:
             bash_command += ["--skip"]
-
-        print("bash_command", bash_command)
 
         # execute command
         bash_return = subprocess.run(bash_command, check = True, text = True)

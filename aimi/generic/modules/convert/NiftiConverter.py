@@ -19,8 +19,7 @@ class NiftiConverter(DataConverter):
         dicom_data = instance.getData(DataType(FileType.DICOM))
 
         # out data
-        nifti_data = InstanceData("image.nii.gz", DataType(FileType.NIFTI))
-        #instance.addData(nifti_data)
+        nifti_data = InstanceData("image.nii.gz", DataType(FileType.NIFTI, dicom_data.type.meta))
         nifti_data.instance = instance
 
         # paths

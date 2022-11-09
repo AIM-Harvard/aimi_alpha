@@ -30,10 +30,9 @@ class TotalSegmentatorRunner(ModelRunner):
     def runModel(self, instance: Instance) -> None:
         
         # model config
-        # TODO: load from gobal config>model section
-        c = {
-            "use_fast_mode": True
-        }
+        # TODO: we should implement sth. like .getConfiguration(key) on the base module.
+        #       but keep it simple for now, one change at a time 
+        c = self.config[self.__class__]
 
         # data
         inp_data = instance.getData(DataType(FileType.NIFTI))

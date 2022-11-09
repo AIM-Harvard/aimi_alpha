@@ -40,9 +40,11 @@ class DataOrganizer(Module):
             # TODO: then we have to deal with the file extensions.
             # this should be handled by the datatype, especially the edgecases (i.e., nifti having the compressed .nii.gz and uncompressed type .nii, or for dicom beeing a folder) 
             ext = {
-                FileType.DICOM: "",
-                FileType.NIFTI: ".nii.gz",
-                FileType.NRRD: ".nrrd"
+                FileType.DICOM:     "",
+                FileType.NIFTI:     ".nii.gz",
+                FileType.NRRD:      ".nrrd",
+                FileType.DICOMSEG:  ".seg",
+                FileType.RTSTRUCT:  ".dcm"
             }[type.ftype]
             
             out_file = rnd + ext
