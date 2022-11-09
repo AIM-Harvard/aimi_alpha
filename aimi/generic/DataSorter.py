@@ -57,6 +57,7 @@ class DataSorter(Module):
         for sid in self.getSeriesIDs():
             inst = SortedInstance(os.path.join("sorted", sid))
             inst.data = [InstanceData("dicom", DataType(FileType.DICOM, CT))] # TODO: dynamic meta (CT ofc cannot be hardcoded!)
+            inst.attr['SeriesID'] = sid # TODO: also not ready for productive use 
             instances.append(inst)
 
         # update instances to the global data handler

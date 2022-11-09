@@ -28,8 +28,14 @@ TotalSegmentatorRunner(config).execute()
 # convert to dicomseg
 DsegConverter(config).execute()
 
+#
+# export datahandler
+import pickle
+with open('/app/datahandler.pickle', 'wb') as f:
+    pickle.dump(config.data, f)
+
 # copy to output flder
 organizer = DataOrganizer(config)
 organizer.setTarget(DataType(FileType.NIFTI, CT), "/app/data/output_data/")
-organizer.setTarget(DataType(FileType.DICOMSEG, SEG), "/app/data/output_data/totalsegmentator")
+organizer.setTarget(DataType(FileType.DICOMSEG, SEG), "/app/data/output_data/[d:model]/[path]")
 organizer.execute()

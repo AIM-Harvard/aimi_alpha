@@ -99,17 +99,25 @@ class DataType:
         return s
 
 class Instance: 
-    handler: 'DataHandler'
-    path: str
-    _data: List['InstanceData']
+    #handler: 'DataHandler'
+    #path: str
+    #_data: List['InstanceData']
+    #attr: Dict[str, str]
 
     def __init__(self, path: str = "") -> None:
         self.path = path
+        self.handler: Optional['DataHandler'] = None    # TODO: not really optional.
         self._data: List['InstanceData'] = []
+        self.attr: Dict[str, str] = {'id': str(uuid.uuid4())}
 
     @property
     def abspath(self) -> str:
-        return os.path.join(self.handler.base, self.path)
+        if self.handler is None:
+            # TODO: warning for now, consider failing (use .path instead of .abspath then)
+            print(f"WARNING; Instance has no handler set: {str(self)}.")
+            return self.path 
+        else:
+            return os.path.join(self.handler.base, self.path)
 
     @property
     def data(self) -> List['InstanceData']:
@@ -321,6 +329,8 @@ class Config:
         if config_file is not None and os.path.isfile(config_file):
             with open(config_file, 'r') as f:
                 self._config = yaml.safe_load(f)
+        elif config_file is not None:
+            print(f"WARNING: config file {config_file} not found.")
 
         self.data = DataHandler(base=self['data_base_dir'])
         self.data.instances = [
