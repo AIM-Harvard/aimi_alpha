@@ -19,23 +19,17 @@ config.verbose = False  # TODO: define levels of verbosity and integrate consist
 # sort
 DataSorter(config).execute()
 
-# converter
+# convert (ct:dicom -> ct:nifti)
 NiftiConverter(config).execute()
 
-# execute mdoel
+# execute model (ct:nifti -> seg:nifti)
 TotalSegmentatorRunner(config).execute()
 
-# convert to dicomseg
+# convert (seg:nifti -> seg:dicomseg)
 DsegConverter(config).execute()
 
-#
-# export datahandler
-import pickle
-with open('/app/datahandler.pickle', 'wb') as f:
-    pickle.dump(config.data, f)
-
-# copy to output flder
+# organize data into output folder
 organizer = DataOrganizer(config)
-organizer.setTarget(DataType(FileType.NIFTI, CT), "/app/data/output_data/")
-organizer.setTarget(DataType(FileType.DICOMSEG, SEG), "/app/data/output_data/[d:model]/[path]")
+organizer.setTarget(DataType(FileType.NIFTI, CT), "/app/data/output_data/[i:SeriesID]/[path]")
+organizer.setTarget(DataType(FileType.DICOMSEG, SEG), "/app/data/output_data/[i:SeriesID]/TotalSegmentator.seg.dcm")
 organizer.execute()
