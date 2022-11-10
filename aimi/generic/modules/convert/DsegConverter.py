@@ -2,8 +2,9 @@ from typing import Optional
 
 from aimi.generic.Config import Instance, InstanceData, DataType, FileType, Meta, SEG
 from .DataConverter import DataConverter
+from aimi.ymldicomseg import exportJsonMeta, removeTempfile
 
-import subprocess
+import os, subprocess
 
 # TODO: we should have a generator for instance data (e.g., on the Instance class)
 
@@ -12,21 +13,8 @@ import subprocess
 class DsegConverter(DataConverter):
     def convert(self, instance: Instance) -> Optional[InstanceData]:
         
-        # converter config
-        # TODO: we should implement sth. like .getConfiguration(key) on the base module.
-        #       but keep it simple for now, one change at a time 
-        c = self.config[self.__class__]
-
-        # test
-        if self.verbose: instance.printDataMetaOverview(label="Instance Data")
+        # get input data (segmentation files)
         fdata = instance.filterData(DataType(FileType.NIFTI, SEG)) #  TODO: fetach all models? standardized meta data fields required.
-        if self.verbose: instance.printDataMetaOverview(datas=fdata, label="After Filtering")
-
-        # get segmentation paths list
-        pred_segmasks_nifti_list = [d.abspath for d in fdata]
-        
-        # TODO: old approach, only valid as long all segmentations are in the same folder.
-        pred_segmasks_nifti_list = ",".join(sorted(pred_segmasks_nifti_list))
 
         # get dicom data
         dicom_data = instance.getData(DataType(FileType.DICOM))
@@ -35,18 +23,53 @@ class DsegConverter(DataConverter):
         out_data = InstanceData("seg.dcm", DataType(FileType.DICOMSEG, SEG)) # TODO: pass model
         out_data.instance = instance
 
+        # get config json & input files
+        if 'dicomseg_json_path' in self.c:
+            # get segmentation paths list
+            pred_segmasks_nifti_list = [d.abspath for d in fdata]
+            
+            # TODO: old approach, only valid as long all segmentations are in the same folder.
+            #       we could encode the standardized segmentation names in the meta data, e.g. by utilizing the dicomseg.yml config in the ModelRunner. To discuss wheather we loop over whats available (filesystem / data filter) or whats defined (config) or use the union and report missing values.
+            pred_segmasks_nifti_list = ",".join(sorted(pred_segmasks_nifti_list))
+
+            # config (json)
+            dicomseg_json_path = self.c['dicomseg_json_path']
+            remove_json_config_file = False
+
+        elif 'dicomseg_yml_path' in self.c:
+
+            # get abs paths and a list of all filenames 
+            # -> json will be generated following the fil_list order.
+            # NOTE: relies on the (uninvorced) convention, that InstanceData.data is the basename 
+            #       (e.g. the file name) rather than a folder structure of any depth.
+            # file_list = [d.path for d in fdata]
+            # NOTE: ... which is not the case for data hosted outside (here path is the abspath and base is empty). Revision or detailed documentation needed!
+
+            pred_segmasks_nifti_list = ",".join([d.abspath for d in fdata])
+            file_list = [os.path.basename(d.abspath) for d in fdata]
+
+            # config (yml->json)
+            dicomseg_json_path = exportJsonMeta(self.c['dicomseg_yml_path'], file_list)
+            remove_json_config_file = True
+
+        else:
+            raise ValueError("Configuration missing, either json or yml config is required to generate dicomseg.")
+
         # build command
         bash_command  = ["itkimage2segimage"]
         bash_command += ["--inputImageList", pred_segmasks_nifti_list]
         bash_command += ["--inputDICOMDirectory", dicom_data.abspath]
         bash_command += ["--outputDICOM", out_data.abspath]
-        bash_command += ["--inputMetadata", c['dicomseg_json_path']]
+        bash_command += ["--inputMetadata", dicomseg_json_path]
 
-        if c["skip_empty_slices"] == True:
+        if self.c["skip_empty_slices"] == True:
             bash_command += ["--skip"]
 
         # execute command
         bash_return = subprocess.run(bash_command, check = True, text = True)
-            
+
+        if remove_json_config_file:
+            removeTempfile()
+
         #TODO: check success, return either None or InstanceData
         return out_data

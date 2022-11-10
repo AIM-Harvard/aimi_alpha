@@ -6,11 +6,6 @@ import os, subprocess
 class TotalSegmentatorRunner(ModelRunner):
     def runModel(self, instance: Instance) -> None:
         
-        # model config
-        # TODO: we should implement sth. like .getConfiguration(key) on the base module.
-        #       but keep it simple for now, one change at a time 
-        c = self.config[self.__class__]
-
         # data
         inp_data = instance.getData(DataType(FileType.NIFTI))
 
@@ -27,7 +22,7 @@ class TotalSegmentatorRunner(ModelRunner):
         bash_command += ["-o", out_dir]
 
         # 
-        if c["use_fast_mode"]:
+        if self.c["use_fast_mode"]:
             self.v("Running TotalSegmentator in fast mode ('--fast', 3mm): ")
             bash_command += ["--fast"]
         else:

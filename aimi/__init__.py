@@ -1,4 +1,5 @@
 from .generic import *
+from .ymldicomseg import *
 
 from .platipy import *
 from .totalsegmentator import *

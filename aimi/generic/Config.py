@@ -278,12 +278,14 @@ class SortedInstance(Instance):
         super().__init__(path)
 
 class DataHandler:
-    base: str
-    _instances: List[Instance]
+    #base: str
+    #_instances: List[Instance]
+    #_tmpdirs: Dict[str, str]
 
     def __init__(self, base) -> None:
-        self.base = base
-        self._instances = []
+        self.base: str = base
+        self._instances: List[Instance] = []
+        self._tmpdirs: Dict[str, str] = {}
 
     @property
     def instances(self) -> List[Instance]:
@@ -299,10 +301,18 @@ class DataHandler:
         i_type = SortedInstance if sorted else UnsortedInstance
         return [i for i in self.instances if isinstance(i, i_type) and i.hasType(type)]
 
-    def requestTempDir(self) -> str:
+    def requestTempDir(self, label: Optional[str] = None) -> str:
         abs_base = "/app/tmp"
         dir_name = str(uuid.uuid4())
         path  = os.path.join(abs_base, dir_name)
+
+        # remember temporary abspath by label
+        if label is None:
+            # TODO: what about a garbage-collection like system for tmp dirs, allowing auto-release by label name? Otherwise, we can always just erase the entire /tmp stack. Only when disc space is an issue + a lot of files are generated (and never released) this should be considered. 
+            print("WARNING: No label set for temporary dir.")
+        else:
+            assert label not in self._tmpdirs, f"Tmp dir label {label} already in use."
+            self._tmpdirs[label] = path
 
         # make path
         os.makedirs(path)
@@ -331,6 +341,15 @@ class Config:
                 self._config = yaml.safe_load(f)
         elif config_file is not None:
             print(f"WARNING: config file {config_file} not found.")
+        else:
+            # TODO: define & load base config
+            print(f"WARNING: base config loaded.")
+            self._config = {
+                'general': {
+                    'data_base_dir': '/data'
+                },
+                'modules': {}
+            }
 
         self.data = DataHandler(base=self['data_base_dir'])
         self.data.instances = [
@@ -355,6 +374,7 @@ class Module:
         self.label = self.__class__.__name__
         self.config = config
         self.verbose = config.verbose
+        self.c = self.config[self.__class__]
 
     def v(self, *args) -> None:
         if self.verbose:
