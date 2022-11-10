@@ -1,0 +1,6 @@
+
+
+Future modules
+- [ ] Pyradiomics  Module
+
+[ ] make datahandler exportable (to continue later)

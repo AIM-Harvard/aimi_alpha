@@ -129,5 +129,6 @@ dmypy.json
 .pyre/
 
 # testing data
-aimi/generic/input_data/
-aimi/generic/output_data/
+input_data/
+output_data/
+aimi/generic/experiments
