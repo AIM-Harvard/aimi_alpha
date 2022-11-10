@@ -1,7 +1,7 @@
 from typing import Optional
 
 from .DataConverter import DataConverter
-from Config import Instance, InstanceData, DataType, FileType
+from aimi.generic.Config import Instance, InstanceData, DataType, FileType
 
 import os
 import pyplastimatch as pypla # type: ignore

@@ -1,4 +1,4 @@
-from .general_utils import *
+from .generic import *
 
 from .platipy import *
 from .totalsegmentator import *

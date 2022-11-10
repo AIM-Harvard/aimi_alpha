@@ -1,5 +1,5 @@
-from Config import Instance
-from modules.convert.DataConverter import DataConverter
+from aimi.generic.Config import Instance
+from aimi.generic.modules.convert.DataConverter import DataConverter
 
 class DataProcessor(DataConverter):
     """

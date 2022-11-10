@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from Config import Module, UnsortedInstance, SortedInstance, InstanceData, DataType, FileType, CT
+from aimi.generic.Config import Module, UnsortedInstance, SortedInstance, InstanceData, DataType, FileType, CT
 
 class DataSorter(Module):
     """

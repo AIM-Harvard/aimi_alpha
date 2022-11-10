@@ -1,5 +1,5 @@
 from typing import Optional
-from Config import Module, Instance, InstanceData, DataType, FileType
+from aimi.generic.Config import Module, Instance, InstanceData, DataType, FileType
 
 class DataConverter(Module):
     """

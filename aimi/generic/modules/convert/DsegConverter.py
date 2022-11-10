@@ -1,6 +1,6 @@
 from typing import Optional
 
-from Config import Instance, InstanceData, DataType, FileType, Meta, SEG
+from aimi.generic.Config import Instance, InstanceData, DataType, FileType, Meta, SEG
 from .DataConverter import DataConverter
 
 import subprocess

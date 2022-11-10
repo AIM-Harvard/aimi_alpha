@@ -1,6 +1,6 @@
 import re
 from typing import List
-from Config import Module, Instance, DataType, FileType
+from aimi.generic.Config import Module, Instance, DataType, FileType
 
 class DataFilter(Module):
     """

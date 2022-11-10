@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 import os, shutil, uuid, re
-from Config import Config, Module, Instance, InstanceData, DataType, FileType
+from aimi.generic.Config import Config, Module, Instance, InstanceData, DataType, FileType
 
 class DataOrganizer(Module):
     target: Dict[DataType, str] = {}
