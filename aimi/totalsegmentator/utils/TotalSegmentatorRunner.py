@@ -1,4 +1,4 @@
-from aimi.generic.ModelRunner import ModelRunner
+from aimi.generic.modules.runner.ModelRunner import ModelRunner
 from aimi.generic.Config import Instance, InstanceData, DataType, FileType, SEG
 
 import os, subprocess

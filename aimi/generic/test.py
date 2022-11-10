@@ -1,10 +1,10 @@
 from Config import Config, DataType, FileType
-from DataSorter import DataSorter
+from generic.modules.sorter.DataSorter import DataSorter
 from modules.convert.NiftiConverter import NiftiConverter
 from modules.convert.DsegConverter import DsegConverter
-from DataOrganizer import DataOrganizer
-from DataFilter import SIDFilter
-from ModelRunner import TotalSegmentatorRunner
+from generic.modules.organizer.DataOrganizer import DataOrganizer
+from generic.modules.filter.DataFilter import SIDFilter
+from generic.modules.runner.ModelRunner import TotalSegmentatorRunner
 
 # clean up
 import shutil
