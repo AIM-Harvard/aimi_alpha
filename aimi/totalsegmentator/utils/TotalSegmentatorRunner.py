@@ -1,3 +1,15 @@
+"""
+    -------------------------------------------------
+    AIMI beta - Run Module for TotalSegmentator.
+    -------------------------------------------------
+    
+    -------------------------------------------------
+    Author: Leonard Nürnberg
+    Email:  leonard.nuernberg@maastrichtuniversity.nl
+    -------------------------------------------------
+"""
+
+
 from aimi.generic.modules.runner.ModelRunner import ModelRunner
 from aimi.generic.Config import Instance, InstanceData, DataType, FileType, SEG
 
@@ -10,24 +22,22 @@ class TotalSegmentatorRunner(ModelRunner):
         inp_data = instance.getData(DataType(FileType.NIFTI))
 
         # define model output folder
-        out_dir = self.config.data.requestTempDir()
+        out_dir = self.config.data.requestTempDir(label="ts-model-out")
         
-        # create out dir if required
-        if not os.path.isdir(out_dir):
-            os.makedirs(out_dir)
-
         # build command
         bash_command  = ["TotalSegmentator"]
         bash_command += ["-i", inp_data.abspath]
         bash_command += ["-o", out_dir]
 
-        # 
+        #platipy segmentation cardiac -o /app/tmp/a707f22b-79b0-4c89-95ae-aafb6b6adda1 -i /app/data/sorted/1.3.6.1.4.1.14519.5.2.1.7009.9004.131908895673988322984492867976/image.nii.gz
+
         if self.c["use_fast_mode"]:
             self.v("Running TotalSegmentator in fast mode ('--fast', 3mm): ")
             bash_command += ["--fast"]
         else:
             self.v("Running TotalSegmentator in default mode (1.5mm)")
 
+        # TODO: remove 
         print(">> run ts: ", bash_command)
 
         # run the model

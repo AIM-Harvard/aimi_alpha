@@ -285,7 +285,7 @@ class DataHandler:
     def __init__(self, base) -> None:
         self.base: str = base
         self._instances: List[Instance] = []
-        self._tmpdirs: Dict[str, str] = {}
+        self._tmpdirs: Dict[str, List[str]] = {}
 
     @property
     def instances(self) -> List[Instance]:
@@ -311,8 +311,9 @@ class DataHandler:
             # TODO: what about a garbage-collection like system for tmp dirs, allowing auto-release by label name? Otherwise, we can always just erase the entire /tmp stack. Only when disc space is an issue + a lot of files are generated (and never released) this should be considered. 
             print("WARNING: No label set for temporary dir.")
         else:
-            assert label not in self._tmpdirs, f"Tmp dir label {label} already in use."
-            self._tmpdirs[label] = path
+            if label not in self._tmpdirs:
+                self._tmpdirs[label] = []
+            self._tmpdirs[label].append(path)
 
         # make path
         os.makedirs(path)
@@ -362,7 +363,7 @@ class Config:
         elif isinstance(key, type) and key.__name__ in self._config['modules']:
             return self._config['modules'][key.__name__]
         else:
-            print(f"WARNING: config '{key}' not defined.")
+            print(f"WARNING: config '{key}' not defined.") 
 
     # TODO: check mode on all! os.makedirs operations (os.makedirs(name=d, mode=0o777))
         
@@ -374,7 +375,10 @@ class Module:
         self.label = self.__class__.__name__
         self.config = config
         self.verbose = config.verbose
-        self.c = self.config[self.__class__]
+
+    @property 
+    def c(self) -> Any:
+        return self.config[self.__class__]
 
     def v(self, *args) -> None:
         if self.verbose:

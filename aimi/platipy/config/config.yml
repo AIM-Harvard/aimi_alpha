@@ -1,0 +1,12 @@
+general:
+  data_base_dir: /app/data
+modules:
+  DataSorter:
+    base_dir: /app/data/sorted
+    structure: '%SeriesInstanceUID/dicom/%SOPInstanceUID.dcm'
+  DsegConverter:
+    #dicomseg_json_path: /app/aimi/platipy/old/config/dicomseg_metadata_whole.json
+    dicomseg_yml_path: /app/aimi/platipy/config/dseg.yml
+    skip_empty_slices: True
+  PlatipyRunner:
+    path_to_config_file: "" #"/app/aimi/platipy/config/default_config.json"

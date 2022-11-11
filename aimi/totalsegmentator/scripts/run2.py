@@ -1,3 +1,14 @@
+"""
+    ---------------------------------------------------
+    AIMI beta - Example of restoring a started process.
+    ---------------------------------------------------
+    
+    ---------------------------------------------------
+    Author: Leonard Nürnberg
+    Email:  leonard.nuernberg@maastrichtuniversity.nl
+    ---------------------------------------------------
+"""
+
 import sys, os
 sys.path.append('.')
 
@@ -10,7 +21,7 @@ import shutil
 shutil.rmtree("/app/data/output_data", ignore_errors=True)
 
 # config
-config = Config(os.path.join(os.path.dirname(__file__), 'config.yml'))
+config = Config('/app/aimi/totalsegmentator/config/config.yml')
 config.verbose = True  # TODO: define levels of verbosity and integrate consistently. 
 
 # load intermediate progress from pickle (just the datahandler)

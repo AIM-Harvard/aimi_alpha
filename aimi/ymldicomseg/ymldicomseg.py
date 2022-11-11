@@ -1,3 +1,16 @@
+"""
+    -------------------------------------------------
+    AIMI beta - YMLDicomSeg
+    Generate simple and uniform dicomseg json config 
+    files from a local database of structures.
+    -------------------------------------------------
+    
+    -------------------------------------------------
+    Author: Leonard Nürnberg
+    Email:  leonard.nuernberg@maastrichtuniversity.nl
+    -------------------------------------------------
+"""
+
 import os, json, yaml, pandas as pd, subprocess
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
@@ -35,7 +48,7 @@ def buildSegmentJsonBySegId(segid):
     return json
 
 
-def generateJsonMeta(yaml_meta, file_list):
+def generateJsonMeta(yaml_meta, file_list, verbose=True):
     global db
     
     # general properties / segment properties (keys)
@@ -53,15 +66,22 @@ def generateJsonMeta(yaml_meta, file_list):
     file2segid = {seg_file: segid for segid, seg_file in yaml_meta['segments'].items()}
 
     # iterate all files
+    file_list_ = []
     for seg_file in file_list:
-        assert seg_file in file2segid, f"Unknown segmentation file: {seg_file}."
+        if not seg_file in file2segid:
+            if verbose: print(f"WARNING: Segmentation file {seg_file} not defined in yaml segmentation config will be ignored.")
+            continue
+
         segid = file2segid[seg_file]
 
         # create json meta for segmentation
         json_meta['segmentAttributes'].append([{**buildSegmentJsonBySegId(segid), **{k: yaml_meta['dicomseg'][k] for k in spropk}}])
+
+        # 
+        file_list_.append(seg_file)
         
     # return
-    return json_meta
+    return json_meta, file_list_
 
 
 def exportJsonMeta(yaml_file, file_list, tmp_json_file = 'temp-meta.json'):
@@ -76,14 +96,14 @@ def exportJsonMeta(yaml_file, file_list, tmp_json_file = 'temp-meta.json'):
         yml_meta = yaml.safe_load(f)
 
     # generate 
-    json_meta = generateJsonMeta(yml_meta, file_list)
+    json_meta, file_list_ = generateJsonMeta(yml_meta, file_list)
 
     # temporarily store json
     with open(tmp_json_file, 'w') as f:
         json.dump(json_meta, f)
 
     # return
-    return tmp_json_file
+    return tmp_json_file, file_list_
 
 
 def removeTempfile(tmp_json_file = 'temp-meta.json'):

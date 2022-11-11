@@ -45,12 +45,14 @@ class DsegConverter(DataConverter):
             # file_list = [d.path for d in fdata]
             # NOTE: ... which is not the case for data hosted outside (here path is the abspath and base is empty). Revision or detailed documentation needed!
 
-            pred_segmasks_nifti_list = ",".join([d.abspath for d in fdata])
             file_list = [os.path.basename(d.abspath) for d in fdata]
 
             # config (yml->json)
-            dicomseg_json_path = exportJsonMeta(self.c['dicomseg_yml_path'], file_list)
+            dicomseg_json_path, file_list = exportJsonMeta(self.c['dicomseg_yml_path'], file_list)
             remove_json_config_file = True
+
+            #
+            pred_segmasks_nifti_list = ",".join([d.abspath for d in fdata if os.path.basename(d.abspath) in file_list])
 
         else:
             raise ValueError("Configuration missing, either json or yml config is required to generate dicomseg.")
@@ -64,6 +66,8 @@ class DsegConverter(DataConverter):
 
         if self.c["skip_empty_slices"] == True:
             bash_command += ["--skip"]
+
+        print(" ".join(bash_command))
 
         # execute command
         bash_return = subprocess.run(bash_command, check = True, text = True)
