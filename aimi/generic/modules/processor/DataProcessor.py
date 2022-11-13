@@ -1,3 +1,14 @@
+"""
+-------------------------------------------------
+AIMI beta - Data Processor Base Module
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
 from aimi.generic.Config import Instance
 from aimi.generic.modules.convert.DataConverter import DataConverter
 

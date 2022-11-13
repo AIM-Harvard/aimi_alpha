@@ -1,3 +1,14 @@
+"""
+-------------------------------------------------
+AIMI beta - Data Organizer Module
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
 from typing import Dict, Optional
 import os, shutil, uuid, re
 from aimi.generic.Config import Config, Module, Instance, InstanceData, DataType, FileType

@@ -1,3 +1,14 @@
+"""
+-------------------------------------------------
+AIMI beta - Data Sorter Module
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
 import os
 import subprocess
 

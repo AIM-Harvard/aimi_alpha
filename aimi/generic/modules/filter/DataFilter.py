@@ -1,4 +1,14 @@
-import re
+"""
+-------------------------------------------------
+AIMI beta - Instance Filter Base Module.
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
 from typing import List
 from aimi.generic.Config import Module, Instance, DataType, FileType
 
@@ -21,6 +31,13 @@ class TypeFilter(DataFilter):
     def filter(self, instances: List[Instance]):
         return [i for i in instances if i.hasType(self.type)]
 
+class AttributeFilter(DataFilter):
+    def filterFor(self, key: str, value: str) -> None:
+        self._filter_attr_key = key
+        self._filter_attr_val = value
+
+    def filter(self, instances: List[Instance]) -> List[Instance]:
+        return [i for i in instances if self._filter_attr_key in i.attr and i.attr[self._filter_attr_key] == self._filter_attr_val]
 
 class SIDFilter(DataFilter):
     """

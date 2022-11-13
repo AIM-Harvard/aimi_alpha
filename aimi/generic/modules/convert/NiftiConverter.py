@@ -1,3 +1,15 @@
+"""
+-------------------------------------------------
+AIMI beta - Dicom2Nifti Conversion Module
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
+
 from typing import Optional
 
 from .DataConverter import DataConverter

@@ -1,3 +1,14 @@
+"""
+-------------------------------------------------
+AIMI beta - Conversion Base Module
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
 from typing import Optional
 from aimi.generic.Config import Module, Instance, InstanceData, DataType, FileType
 
@@ -6,8 +17,6 @@ class DataConverter(Module):
     Conversion module. 
     Convert instance data from one to another datatype without modifying the data.
     """
-
-    # TODO: Idea: We could have InstancData as (optional) return type for convert
 
     def convert(self, instance: Instance) -> Optional[InstanceData]:
         print("Ooops, not implemented.")

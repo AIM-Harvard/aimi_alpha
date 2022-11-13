@@ -132,3 +132,7 @@ dmypy.json
 input_data/
 output_data/
 aimi/generic/experiments
+aimi/ymldicomseg/test.ipynb
+aimi/totalsegmentator/old
+aimi/platipy/old
+aimi/generic/ideas.txt

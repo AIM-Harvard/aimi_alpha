@@ -1,3 +1,14 @@
+"""
+-------------------------------------------------
+AIMI beta - DicomSeg Conversion Module
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
 from typing import Optional
 
 from aimi.generic.Config import Instance, InstanceData, DataType, FileType, Meta, SEG
