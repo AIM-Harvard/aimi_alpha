@@ -1,3 +1,15 @@
+"""
+-------------------------------------------------
+AIMI beta - Config, Instance & Data Classes
+-------------------------------------------------
+
+-------------------------------------------------
+Author: Leonard Nürnberg
+Email:  leonard.nuernberg@maastrichtuniversity.nl
+-------------------------------------------------
+"""
+
+
 import os, time, uuid, yaml
 from enum import Enum
 from typing import List, Dict, Union, Optional, Tuple, Type, Any
@@ -12,8 +24,6 @@ class FileType(Enum):
 
     def __str__(self) -> str:
         return self.name
-
-#class DataSemantic:
 
 class Meta:
 

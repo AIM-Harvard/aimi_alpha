@@ -13,7 +13,7 @@ import sys, os
 sys.path.append('.')
 
 from aimi.generic.Config import Config, DataType, FileType, CT, SEG
-from aimi.generic.modules.sorter.DataSorter import DataSorter
+from aimi.generic.modules.importer.DataSorter import DataSorter
 from aimi.generic.modules.convert.NiftiConverter import NiftiConverter
 from aimi.generic.modules.convert.DsegConverter import DsegConverter
 from aimi.generic.modules.organizer.DataOrganizer import DataOrganizer
