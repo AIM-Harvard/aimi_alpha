@@ -19,11 +19,11 @@ from aimi.generic.modules.organizer.DataOrganizer import DataOrganizer
 from aimi.thresholder.utils.ThresholdingRunner import ThresholdingRunner
 
 # clean-up
-import shutil
-shutil.rmtree("/app/data/sorted", ignore_errors=True)
-shutil.rmtree("/app/data/nifti", ignore_errors=True)
-shutil.rmtree("/app/tmp", ignore_errors=True)
-shutil.rmtree("/app/data/output_data", ignore_errors=True)
+#import shutil
+#shutil.rmtree("/app/data/sorted", ignore_errors=True)
+#shutil.rmtree("/app/data/nifti", ignore_errors=True)
+#shutil.rmtree("/app/tmp", ignore_errors=True)
+#shutil.rmtree("/app/data/output_data", ignore_errors=True) # <-- we use in = out so not a good idea :D
 
 # config
 config = Config('/app/aimi/thresholder/config/config.yml')

@@ -3,5 +3,5 @@ general:
 modules:
   NrrdImporter:
     input_file_name: 'image.nrrd'
-  ThresholdRunner:
+  ThresholdingRunner:
     TH: 300 
