@@ -34,3 +34,8 @@ NrrdImporter(config).execute()
 
 # execute model (ct:nifti -> seg:nifti)
 ThresholdingRunner(config).execute()
+
+# organize data into output folder
+organizer = DataOrganizer(config)
+organizer.setTarget(DataType(FileType.NRRD, SEG), "/app/data/output_data/output.nrrd")
+organizer.execute()
