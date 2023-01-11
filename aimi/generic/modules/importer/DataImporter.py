@@ -67,6 +67,16 @@ class DataImporter(Module):
             meta = CT
         ))
 
+    def addNrrdCT(self, path: str, ref: Optional[str] = None) -> None:
+        _path  = self._resolvePath(path, ref)
+        assert os.path.isfile(_path) and (_path[-5:] == '.nrrd'), f"Expect existing nrrd file, '{_path}' was given instead."
+        self._import_paths.append(IDEF(
+            ref = ref,
+            path = path, 
+            ftype = FileType.NRRD,
+            meta = CT
+        ))
+
     # --- Other helper methods ---
     def setAttribute(self, key: str, value: str, ref: str) -> None:
         """

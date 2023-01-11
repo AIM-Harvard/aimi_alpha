@@ -1,0 +1,7 @@
+general:
+  data_base_dir: /app/data
+modules:
+  NrrdImporter:
+    input_file_name: 'image.nrrd'
+  ThresholdRunner:
+    TH: 300 

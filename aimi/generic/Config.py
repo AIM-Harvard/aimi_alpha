@@ -362,6 +362,7 @@ class Config:
                 'modules': {}
             }
 
+        # FIXME: This should be part of the importer module!
         self.data = DataHandler(base=self['data_base_dir'])
         self.data.instances = [
             UnsortedInstance("input_data") # TODO: generalize
