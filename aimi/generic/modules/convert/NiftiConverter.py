@@ -112,8 +112,8 @@ class NiftiConverter(DataConverter):
         hasNrrd = instance.hasType(DataType(FileType.NRRD))
 
         if hasDicom:
-            return self.dicom2nifti()
+            return self.dicom2nifti(instance)
         elif hasNrrd:
-            return self.nrrd2nifti()
+            return self.nrrd2nifti(instance)
         else:
             raise TypeError(f"CONVERT ERROR: required datatype (dicom or nrrd) not available in instance {str(instance)}.")
