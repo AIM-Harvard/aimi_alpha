@@ -20,7 +20,7 @@ from aimi.generic.modules.organizer.DataOrganizer import DataOrganizer
 from aimi.platipy.utils.PlatipyRunner import PlatipyRunner
 
 # config
-config = Config('/app/aimi/platipy/config/config.yml')
+config = Config('/app/aimi/platipy/config/slicer_config.yml')
 config.verbose = True  # TODO: define levels of verbosity and integrate consistently. 
 
 # load NRRD file (ct:nrrd)
