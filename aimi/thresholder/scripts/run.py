@@ -29,10 +29,10 @@ from aimi.thresholder.utils.ThresholdingRunner import ThresholdingRunner
 config = Config('/app/aimi/thresholder/config/config.yml')
 config.verbose = True  # TODO: define levels of verbosity and integrate consistently. 
 
-# convert (ct:dicom -> ct:nrrd)
+# load NRRD file (ct:nrrd)
 NrrdImporter(config).execute()
 
-# execute model (ct:nifti -> seg:nifti)
+# execute model (ct:nrrd -> seg:nrrd)
 ThresholdingRunner(config).execute()
 
 # organize data into output folder
