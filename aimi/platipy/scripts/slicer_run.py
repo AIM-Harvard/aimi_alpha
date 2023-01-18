@@ -34,5 +34,5 @@ PlatipyRunner(config).execute()
 
 # organize data into output folder
 organizer = DataOrganizer(config)
-organizer.setTarget(DataType(FileType.NIFTI, CT), "/app/data/output_data/[path]")
+organizer.setTarget(DataType(FileType.NIFTI, SEG), "/app/data/output_data/[d:roi].nii.gz")
 organizer.execute()
