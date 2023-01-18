@@ -1,7 +1,7 @@
 """
     -------------------------------------------------
-    AIMI beta - Slicer run of the PP pipeline
-
+    AIMI beta - Slicer run of the Totalsegmentator
+      pipeline
     -------------------------------------------------
     
     -------------------------------------------------
