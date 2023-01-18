@@ -145,6 +145,26 @@ class Instance:
     def getDataMetaKeys(self) -> List[str]:
         return list(set(sum([list(d.type.meta.keys()) for d in self.data], [])))
 
+    def printDataOverview(self, datas: Optional[List['InstanceData']] = None, compress: bool = True, label: str = "") -> None:
+
+        # you may specify data explicitly (e.g. the result of a filter), otherwise we use the instance's data
+        if datas is None:
+            datas = self.data
+
+        # formatting options
+        # TODO: outsource or standardize if used frequently
+        chead = '\033[95m'
+        cyan = '\033[96m'
+        cend = '\033[0m'
+        fitalics = '\x1B[3m'
+        fnormal ='\x1B[0m'
+
+        # print fromatted output
+        print(f". {fitalics}{label}{fnormal} [{self.abspath}]")
+        for data in datas:
+            print(f"├── {chead}{str(data.type.ftype)}{cend} [{data.abspath}]")
+
+
     def printDataMetaOverview(self, datas: Optional[List['InstanceData']] = None, compress: bool = True, label: str = "") -> None:
 
         # you may specify data explicitly (e.g. the result of a filter), otherwise we use the instance's data
@@ -195,9 +215,9 @@ class Instance:
                         
                         while n1lst:
                             cc = 12
-                            while n1lst and cc + len(n1lst[0]) + 2 < os.get_terminal_size().columns:
-                                print(n1lst[0] + ", ", end="")
-                                cc  += len(n1lst[0]) + 2
+                            while n1lst and cc + len(str(n1lst[0])) + 2 < os.get_terminal_size().columns:
+                                print(str(n1lst[0]) + ", ", end="")
+                                cc  += len(str(n1lst[0])) + 2
                                 n1lst = n1lst[1:]
                             if n1lst:
                                 print(f"\n|   |   |   ", end="")
@@ -362,11 +382,9 @@ class Config:
                 'modules': {}
             }
 
-        # FIXME: This should be part of the importer module!
+        # Create a data handler with no instances.
+        # NOTE: The first module should always be an importer module importing instances and instance data.
         self.data = DataHandler(base=self['data_base_dir'])
-        self.data.instances = [
-            UnsortedInstance("input_data") # TODO: generalize
-        ]
 
     def __getitem__(self, key: Union[str, Type['Module']]) -> Any:
         if isinstance(key, str) and key in self._config['general']:

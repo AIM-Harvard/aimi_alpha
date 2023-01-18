@@ -13,6 +13,7 @@ import sys, os
 sys.path.append('.')
 
 from aimi.generic.Config import Config, DataType, FileType, CT, SEG
+from aimi.generic.modules.importer.UnsortedDicomImporter import UnsortedInstanceImporter
 from aimi.generic.modules.importer.DataSorter import DataSorter
 from aimi.generic.modules.convert.NiftiConverter import NiftiConverter
 from aimi.generic.modules.convert.DsegConverter import DsegConverter
@@ -29,6 +30,9 @@ shutil.rmtree("/app/data/output_data", ignore_errors=True)
 # config
 config = Config('/app/aimi/platipy/config/config.yml')
 config.verbose = True  # TODO: define levels of verbosity and integrate consistently. 
+
+# import
+UnsortedInstanceImporter(config).execute()
 
 # sort
 DataSorter(config).execute()

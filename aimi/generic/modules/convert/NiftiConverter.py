@@ -21,7 +21,7 @@ import pyplastimatch as pypla # type: ignore
 class NiftiConverter(DataConverter):
     """
     Conversion module. 
-    Convert instance data from dicom to nifti.
+    Convert instance data from dicom or nrrd to nifti.
     """
 
     def dicom2nifti(self, instance: Instance) -> Optional[InstanceData]:

@@ -6,17 +6,13 @@ from aimi.generic.modules.importer.DataImporter import DataImporter
 class NrrdImporter(DataImporter):
 
     def task(self) -> None:
-        # NOTE: completely bypassing DataImporter here. Needs review and specification.
-
         # input nrrd file name
+        input_dir = self.c['input_dir']
         input_file_name = self.c['input_file_name']
-        self.v("importing", input_file_name)
 
-        # create instance
-        instance = UnsortedInstance("input_data")
-        dtype = DataType(FileType.NRRD, CT)
-        data = InstanceData(input_file_name, dtype)
-        instance.addData(data)
+        # add input nrrd file
+        self.setBasePath(input_dir)
+        self.addNrrdCT(input_file_name, ref=None)
 
-        # set instance as the only imported instance
-        self.config.data.instances = [instance]
+        # let the base module take over from here
+        super().task()

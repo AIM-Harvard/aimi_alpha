@@ -14,8 +14,15 @@ from aimi.generic.Config import Config, Module, Instance, InstanceData, DataType
 import os, uuid
 
 class IDEF:
+    """ Instance definition.
+        All data with the same reference (ref) will be grouped into a single instance.
+        As no file operations are performed in the DataImporter base class, "ref" must also be the
+        instance's folder and the last folder in th epath chain of each file added under that ref.
+        Note, that no ref (None) is a valid value and can be used if only a single instance is to be 
+        created and all data is located in the input folder (which should then be set as the data importer's basePath).
+    """
     def __init__(self, ref: Optional[str], path: str, ftype: FileType, meta: Meta) -> None:
-        self.ref = ref if ref and type(ref) == str else str(uuid.uuid4())
+        self.ref = ref #if ref and type(ref) == str else str(uuid.uuid4())
         self.path = path
         self.ftype = ftype
         self.meta = meta
@@ -69,6 +76,7 @@ class DataImporter(Module):
 
     def addNrrdCT(self, path: str, ref: Optional[str] = None) -> None:
         _path  = self._resolvePath(path, ref)
+        print("--> resolved path", _path)
         assert os.path.isfile(_path) and (_path[-5:] == '.nrrd'), f"Expect existing nrrd file, '{_path}' was given instead."
         self._import_paths.append(IDEF(
             ref = ref,
@@ -111,6 +119,7 @@ class DataImporter(Module):
         # NOTE: In any implementing sub-class, you may not override this task method without calling super().task()!
         # Instead, use the helper methods (e.g. self.addDicomCT()) to add data.
         # The DataImporter base module takes care of generating instances of the Instance, InstanceData classes and of linking them correctly to the central data handler.
+        # Instances are separated by it's ref attribute.
 
         # create data instances based on the sorted output
         instances: Dict[str, Instance] = {}
@@ -118,7 +127,14 @@ class DataImporter(Module):
 
             # create instances
             if idef.ref not in instances:
-                ipath = os.path.join(self.basePath, idef.ref) if self.basePath else idef.ref
+
+                # resolve instance path (same as self.resolvePath but for the instance instead of an instance's file and relative to the config's base instead of absolut)
+                ipath = []
+                if self.basePath: ipath.append(self.basePath)
+                if idef.ref: ipath.append(idef.ref)
+                ipath = os.path.join(*ipath)
+
+                # generate instance
                 instances[idef.ref] = self._generateInstance(ipath)
 
                 # add the ref as attribute to every instance 
