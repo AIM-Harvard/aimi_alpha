@@ -351,6 +351,14 @@ class DataHandler:
         # return
         return path
 
+    def printInstancesOverview(self, level: str = "data"):
+        assert level in ["data", "meta", "all"]
+        for instance in self.instances:
+            if level == "data" or level == "all":
+                instance.printDataOverview()
+            if level == "meta" or level == "all":
+                instance.printDataMetaOverview()
+
 class Config:
     data: DataHandler
 
@@ -359,6 +367,7 @@ class Config:
 
     def __init__(self, config_file: Optional[str] = None) -> None:
         self.verbose = True
+        self.debug = False
 
         #self.sorted_structure = "%SeriesInstanceUID/dicom/%SOPInstanceUID.dcm"
         #self.dicomseg_json_path = "/app/aimi/totalsegmentator/config/dicomseg_metadata_whole.json"
@@ -404,6 +413,7 @@ class Module:
         self.label = self.__class__.__name__
         self.config = config
         self.verbose = config.verbose
+        self.debug = config.debug
 
     @property 
     def c(self) -> Any:
@@ -420,6 +430,10 @@ class Module:
         self.task()
         elapsed = time.time() - start_time
         self.v("Done in %g seconds."%elapsed)
+
+        if self.debug:
+            self.v("\n-debug--------------------")
+            self.config.data.printInstancesOverview()
 
     def task(self) -> None:
         """

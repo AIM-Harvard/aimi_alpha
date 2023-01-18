@@ -28,6 +28,7 @@ from aimi.thresholder.utils.ThresholdingRunner import ThresholdingRunner
 # config
 config = Config('/app/aimi/thresholder/config/config.yml')
 config.verbose = True  # TODO: define levels of verbosity and integrate consistently. 
+config.debug = True
 
 # load NRRD file (ct:nrrd)
 NrrdImporter(config).execute()
