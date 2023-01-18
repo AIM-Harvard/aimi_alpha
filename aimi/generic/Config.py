@@ -351,7 +351,7 @@ class DataHandler:
         # return
         return path
 
-    def printInstancesOverview(self, level: str = "data"):
+    def printInstancesOverview(self, level: str = "all"):
         assert level in ["data", "meta", "all"]
         for instance in self.instances:
             if level == "data" or level == "all":
