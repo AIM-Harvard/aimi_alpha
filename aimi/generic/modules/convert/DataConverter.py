@@ -24,8 +24,9 @@ class DataConverter(Module):
 
     def task(self):
         # get instances
-        instances = self.config.data.getInstances(True, DataType(FileType.DICOM))
-        assert len(instances) > 0
+        # instances = self.config.data.getInstances(True, DataType(FileType.DICOM))
+        # assert len(instances) > 0
+        instances = self.config.data.instances
 
         # execute convert for each instance
         # TODO: add parallelization

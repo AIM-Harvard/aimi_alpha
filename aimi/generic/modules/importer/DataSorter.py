@@ -30,7 +30,7 @@ class DataSorter(DataImporter):
         
         # get input data
         instances = self.config.data.instances
-        assert len(instances) == 1, "Error: too many instances. Sorter expxts a single instance."
+        assert len(instances) == 1, "Error: too many or too less instances. Sorter expxts a single, unsorted instance."
         instance = instances[0]
         assert type(instance) == UnsortedInstance, "Error: instance must be unsorted."
 
@@ -51,6 +51,8 @@ class DataSorter(DataImporter):
             schema
         ]
 
+        print(bash_command)
+
         _ = subprocess.run(bash_command, check=True, text=True)
 
         # iterate all created files and add them to teh data importer
@@ -64,7 +66,7 @@ class DataSorter(DataImporter):
     def task(self) -> None:
 
         # TODO: self.c['base_dir'] will be used here in the future but currrently is /app/data/sorted, whereas the actual instance base is "sorted" because "/app/data" is the data handler base path. Add a global rel/abs path resolving mechanism to handle these kinds safely. Also add this (and all actions) to a describing log file so everybody can see what's going on in terms of data handling!
-        # NOTE: Thinking about this, I will put the current dynamic resolving folder structure approach under revision. Although it looks nice (and will make debugging / inspection a ton easyer), there is no neeed to have a well defined folder structure hidden in the docker if we keep track of all files anyways, especially since we always could export the files (as with the organizer module). However, the current approach however makes the pipeline more compatible with (our)traditional folder structure. Thinking about transparency, the jupyter notebooks might benefit from a well-defined folder structure! SO pro's and con's.
+        # NOTE: Thinking about this, I will put the current dynamic resolving folder structure approach under revision. Although it looks nice (and will make debugging / inspection a ton easyer), there is no neeed to have a well defined folder structure hidden in the docker if we keep track of all files anyways, especially since we always could export the files (as with the organizer module). However, the current approach makes the pipeline more compatible with (our)traditional folder structure. Thinking about transparency, the jupyter notebooks might benefit from a well-defined folder structure! SO pro's and con's.
         self.setBasePath('sorted')
 
         # run dicomsort
